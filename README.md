@@ -1,7 +1,7 @@
 # Projection Extension Specification
 
 - **Title: Projection**
-- **Identifier:** <<https://stac-extensions.github.io/projection/v1.0.0/schema.json>
+- **Identifier:** <https://stac-extensions.github.io/projection/v1.0.0/schema.json>
 - **Field Name Prefix: proj**
 - **Scope: Item**
 - **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/README.md#extension-maturity): Proposal**
@@ -78,7 +78,11 @@ a square aligned to the original CRS grid.
 Bounding box of the assets represented by this Item in the asset data CRS. Specified as 4 or 6
 coordinates based on the CRS defined in the `proj:epsg`, `proj:projjson` or `proj:wkt2` fields.  First two numbers are coordinates
 of the lower left corner, followed by coordinates of upper right corner, , e.g., \[west, south, east, north],
-\[xmin, ymin, xmax, ymax], \[left, down, right, up], or \[west, south, lowest, east, north, highest]. The length of the array must be 2\*n where n is the number of dimensions. The array contains all axes of the southwesterly most extent followed by all axes of the northeasterly most extent specified in Longitude/Latitude or Longitude/Latitude/Elevation based on [WGS 84](http://www.opengis.net/def/crs/OGC/1.3/CRS84). When using 3D geometries, the elevation of the southwesterly most extent is the minimum elevation in meters and the elevation of the northeasterly most extent is the maximum in meters.
+\[xmin, ymin, xmax, ymax], \[left, down, right, up], or \[west, south, lowest, east, north, highest]. 
+The length of the array must be 2\*n where n is the number of dimensions. The array contains all axes of the southwesterly
+most extent followed by all axes of the northeasterly most extent specified in Longitude/Latitude or Longitude/Latitude/Elevation 
+based on [WGS 84](http://www.opengis.net/def/crs/OGC/1.3/CRS84). When using 3D geometries, the elevation of the southwesterly most 
+extent is the minimum elevation in meters and the elevation of the northeasterly most extent is the maximum in meters.
 
 #### proj:centroid
 

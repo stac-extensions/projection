@@ -4,10 +4,11 @@
 - **Identifier:** <<https://stac-extensions.github.io/projection/v1.0.0/schema.json>
 - **Field Name Prefix: proj**
 - **Scope: Item**
-- **Extension [Maturity Classification](../README.md#extension-maturity): Proposal**
+- **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/README.md#extension-maturity): Proposal**
 - **Owner**: @matthewhanson
 
-This document explains the fields of the STAC Projection (`projection`) Extension to a STAC [Item](../../item-spec/item-spec.md).
+This document explains the fields of the STAC Projection (`projection`) Extension to a STAC 
+[Item](https://github.com/radiantearth/stac-spec/tree/master/item-spec/item-spec.md).
 
 The fields defined here may be added to the Item Properties object or an Item Asset object.
 
@@ -17,13 +18,10 @@ e.g., a UTM Zone. However, there may also be Assets intended for display, like a
 been reprojected to a different CRS, e.g., Web Mercator, or resized to better accommodate that use case. In this case, the 
 fields should be specified at the Item Asset level, while those Item Asset objects that use the defaults can remain unspecified.
 
-## Examples
-
-- [Example Landsat8](../../examples/extensions-collection/proj-example/proj-example.json)
-
-## Schema
-
+- Examples:
+  - [Item Example](examples/item.json)
 - [JSON Schema](json-schema/schema.json)
+- [Changelog](CHANGELOG.md)
 
 ## Item Asset or Item Properties fields
 
@@ -45,7 +43,8 @@ The `proj` prefix is short for "projection", and is not a reference to the PROJ/
 #### proj:epsg
 
 A Coordinate Reference System (CRS) is the data reference system (sometimes called a
-'projection') used by the asset data, and can usually be referenced using an [EPSG code](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset).
+'projection') used by the asset data, and can usually be referenced using an 
+[EPSG code](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset).
 If the asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control
 Points, `proj:epsg` should be set to null. It should also be set to null if a CRS exists, but for which
 there is no valid EPSG code. A great tool to help find EPSG codes is [epsg.io](http://epsg.io/).

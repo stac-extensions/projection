@@ -83,10 +83,9 @@
         "stac_extensions": {
           "type": "array",
           "contains": {
-            "enum": [
-              "projection",
-              "https://schemas.stacspec.org/v1.0.0-rc.1/extensions/projection/json-schema/schema.json"
-            ]
+            "contains": {
+              "const": "https://stac-extensions.github.io/projection/v1.0.0/schema.json"
+            }
           }
         }
       }

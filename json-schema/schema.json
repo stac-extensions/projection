@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://stac-extensions.github.io/template/v1.0.0/schema.json#",
-  "title": "Template Extension",
-  "description": "STAC Template Extension for STAC Items and STAC Collections.",
+  "$id": "https://stac-extensions.github.io/projection/v1.0.0/schema.json",
+  "title": "Projection Extension",
+  "description": "STAC Projection Extension for STAC Items.",
   "oneOf": [
     {
       "$comment": "This is the schema for STAC Items.",
@@ -23,7 +23,7 @@
                 {
                   "$comment": "Require fields here for item properties.",
                   "required": [
-                    "template:new_field"
+                    "proj:epsg"
                   ]
                 },
                 {
@@ -69,13 +69,6 @@
               }
             }
           }
-        },
-        {
-          "$comment": "Remove this and the following object if this is not an extension to a Collection.",
-          "$ref": "#/definitions/stac_extensions"
-        },
-        {
-          "$ref": "#/definitions/fields"
         }
       ]
     }
@@ -90,7 +83,10 @@
         "stac_extensions": {
           "type": "array",
           "contains": {
-            "const": "https://stac-extensions.github.io/template/v1.0.0/schema.json"
+            "enum": [
+              "projection",
+              "https://schemas.stacspec.org/v1.0.0-rc.1/extensions/projection/json-schema/schema.json"
+            ]
           }
         }
       }
@@ -99,39 +95,100 @@
       "$comment": "Add your new fields here. Don't require them here, do that above in the item schema.",
       "type": "object",
       "properties": {
-        "template:new_field": {
-          "type": "string"
+        "proj:epsg":{
+          "title":"EPSG code",
+          "type":[
+            "integer",
+            "null"
+          ]
         },
-        "template:xyz": {
-          "type": "object",
+        "proj:wkt2":{
+          "title":"Coordinate Reference System in WKT2 format",
+          "type":[
+            "string",
+            "null"
+          ]
+        },
+        "proj:projjson": {
+          "title":"Coordinate Reference System in PROJJSON format",
+          "oneOf": [
+            {
+              "$ref": "https://proj.org/schemas/v0.2/projjson.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "proj:geometry":{
+          "$ref": "https://geojson.org/schema/Geometry.json"
+        },
+        "proj:bbox":{
+          "title":"Extent",
+          "type":"array",
+          "oneOf": [
+            {
+              "minItems":4,
+              "maxItems":4
+            },
+            {
+              "minItems":6,
+              "maxItems":6
+            }
+          ],
+          "items":{
+            "type":"number"
+          }
+        },
+        "proj:centroid":{
+          "title":"Centroid",
+          "type":"object",
           "required": [
-            "x",
-            "y",
-            "z"
+            "lat",
+            "lon"
           ],
           "properties": {
-            "x": {
-              "type": "number"
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
             },
-            "y": {
-              "type": "number"
-            },
-            "z": {
-              "type": "number"
+            "lon": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
             }
           }
-        }, 
-        "template:another_one": {
-          "type": "array", 
-          "items": {
-            "type": "number"
+        },
+        "proj:shape":{
+          "title":"Shape",
+          "type":"array",
+          "minItems":2,
+          "maxItems":2,
+          "items":{
+            "type":"integer"
+          }
+        },
+        "proj:transform":{
+          "title":"Transform",
+          "type":"array",
+          "oneOf": [
+            {
+              "minItems":6,
+              "maxItems":6
+            },
+            {
+              "minItems":9,
+              "maxItems":9
+            }
+          ],
+          "items":{
+            "type":"number"
           }
         }
       },
       "patternProperties": {
-        "^(?!template:)": {
-          "$comment": "Above, change `template` to the prefix of this extension"
-        }
+        "^(?!proj:)": {}
       },
       "additionalProperties": false
     }

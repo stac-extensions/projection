@@ -69,6 +69,9 @@
               }
             }
           }
+        },
+        {
+          "$ref": "#/definitions/stac_extensions"
         }
       ]
     }
@@ -83,9 +86,7 @@
         "stac_extensions": {
           "type": "array",
           "contains": {
-            "contains": {
-              "const": "https://stac-extensions.github.io/projection/v1.0.0/schema.json"
-            }
+            "const": "https://stac-extensions.github.io/projection/v1.0.0/schema.json"
           }
         }
       }

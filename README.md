@@ -7,10 +7,8 @@
 - **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/README.md#extension-maturity): Proposal**
 - **Owner**: @matthewhanson
 
-This document explains the fields of the STAC Projection (`projection`) Extension to a STAC 
-[Item](https://github.com/radiantearth/stac-spec/tree/master/item-spec/item-spec.md).
-
-The fields defined here may be added to the Item Properties object or an Item Asset object.
+This document explains the Projection Extension to the
+[SpatioTemporal Asset Catalog](https://github.com/radiantearth/stac-spec) (STAC) specification.
 
 When specified in Item Properties, the values are assumed to apply to all Assets in that Item. For example, an Item may have
 several related Assets each representing a band or layer for the Item, and which typically all use the same CRS,
@@ -19,11 +17,11 @@ been reprojected to a different CRS, e.g., Web Mercator, or resized to better ac
 fields should be specified at the Item Asset level, while those Item Asset objects that use the defaults can remain unspecified.
 
 - Examples:
-  - [Item Example](examples/item.json)
+  - [Item example](examples/item.json)
 - [JSON Schema](json-schema/schema.json)
-- [Changelog](CHANGELOG.md)
+- [Changelog](./CHANGELOG.md)
 
-## Item Asset or Item Properties fields
+## Item Properties or Asset Fields
 
 The `proj` prefix is short for "projection", and is not a reference to the PROJ/PROJ4 formats.
 
@@ -160,4 +158,35 @@ WKT2 and PROJJSON are mostly recommended when you have data that is not part of 
 supplies the exact information for projection software to do the exact projection transform.
 WKT2 and PROJJSON are equivalent to one another - more clients understand WKT2, but PROJJSON fits more nicely in the STAC JSON 
 structure, since they are both JSON. For now it's probably best to use both for maximum interoperability, but just using PROJJSON 
-is likely ok if you aren't worried about legacy client support. 
+is likely ok if you aren't worried about legacy client support.
+
+## Contributing
+
+All contributions are subject to the
+[STAC Specification Code of Conduct](https://github.com/radiantearth/stac-spec/blob/master/CODE_OF_CONDUCT.md).
+For contributions, please follow the
+[STAC specification contributing guide](https://github.com/radiantearth/stac-spec/blob/master/CONTRIBUTING.md) Instructions
+for running tests are copied here for convenience.
+
+### Running tests
+
+The same checks that run as checks on PR's are part of the repository and can be run locally to verify that changes are valid. 
+To run tests locally, you'll need `npm`, which is a standard part of any [node.js installation](https://nodejs.org/en/download/).
+
+First you'll need to install everything with npm once. Just navigate to the root of this repository and on 
+your command line run:
+```bash
+npm install
+```
+
+Then to check markdown formatting and test the examples against the JSON schema, you can run:
+```bash
+npm test
+```
+
+This will spit out the same texts that you see online, and you can then go and fix your markdown or examples.
+
+If the tests reveal formatting problems with the examples, you can fix them with:
+```bash
+npm run format-examples
+```

@@ -3,7 +3,7 @@
 - **Title:** Projection
 - **Identifier:** <https://stac-extensions.github.io/projection/v1.0.0/schema.json>
 - **Field Name Prefix:** proj
-- **Scope:** Item
+- **Scope:** Item, Collection
 - **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/README.md#extension-maturity):** Stable
 - **Owner**: @matthewhanson
 - **History:** [Prior to March 30, 2021](https://github.com/radiantearth/stac-spec/commits/v1.0.0-rc.2/extensions/projection)

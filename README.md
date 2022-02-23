@@ -103,18 +103,28 @@ the default shape for all assets that don't have an overriding shape. This can b
 Linear mapping from pixel coordinate space (Pixel, Line) to projection coordinate space (Xp, Yp). It is 
 a `3x3` matrix stored as a flat array of 9 elements in row major order. Since the last row is always `0,0,1` it can be omitted, 
 in which case only 6 elements are recorded. This mapping can be obtained from 
-GDAL([`GetGeoTransform`](https://gdal.org/api/gdaldataset_cpp.html#_CPPv4N11GDALDataset15GetGeoTransformEPd)) or the Rasterio 
-([`Transform`](https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.transform)). 
+GDAL([`GetGeoTransform`](https://gdal.org/api/gdaldataset_cpp.html#_CPPv4N11GDALDataset15GetGeoTransformEPd), requires re-ordering)
+or the Rasterio ([`Transform`](https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.transform)). 
 To get it on the command line you can use the [Rasterio CLI](https://rasterio.readthedocs.io/en/latest/cli.html) with the 
 [info](https://rasterio.readthedocs.io/en/latest/cli.html#info) command: `$ rio info`. 
 
-``` bash
+```
   [Xp]   [a0, a1, a2]   [Pixel]
   [Yp] = [a3, a4, a5] * [Line ]
   [1 ]   [0 ,  0,  1]   [1    ]
 ```
 
 If the transform is defined in Item Properties, it is used as the default transform for all assets that don't have an overriding transform.
+
+Note that `GetGeoTransform` and `rasterio` use different formats for reporting transform information. Order expected in `proj:transform` is the
+same as reported by `rasterio`. When using GDAL method you need to re-order in the following way:
+
+```
+g = GetGeoTransform(...)
+proj_transform = [g[1], g[2], g[0],
+                  g[4], g[5], g[3],
+                     0,    0,    1]
+```
 
 ## Centroid Object
 

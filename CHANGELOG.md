@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Added missing scope "Collection" to Readme. The scope was already supported in JSON Schemas.
+- Clarified which fields are required by GDAL
 
 ## [v1.0.0] - 2021-03-30
 

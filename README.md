@@ -108,7 +108,7 @@ or the Rasterio ([`Transform`](https://rasterio.readthedocs.io/en/stable/api/ras
 To get it on the command line you can use the [Rasterio CLI](https://rasterio.readthedocs.io/en/latest/cli.html) with the 
 [info](https://rasterio.readthedocs.io/en/latest/cli.html#info) command: `$ rio info`. 
 
-```
+```txt
   [Xp]   [a0, a1, a2]   [Pixel]
   [Yp] = [a3, a4, a5] * [Line ]
   [1 ]   [0 ,  0,  1]   [1    ]
@@ -119,7 +119,7 @@ If the transform is defined in Item Properties, it is used as the default transf
 Note that `GetGeoTransform` and `rasterio` use different formats for reporting transform information. Order expected in `proj:transform` is the
 same as reported by `rasterio`. When using GDAL method you need to re-order in the following way:
 
-```
+```python
 g = GetGeoTransform(...)
 proj_transform = [g[1], g[2], g[0],
                   g[4], g[5], g[3],
@@ -152,6 +152,13 @@ of the asset's data, so it doesn't have to reproject (which can be lossy and tak
 like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to open the actual imagery file. [shape](#projshape) and
 [transform](#projtransform) together with the core description of the CRS provide enough information about the size and shape of
 the data in the file so that tools don't have to open it.
+
+For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) the following fields: 
+1. `proj:epsg`, `proj:wkt2` or `projjson` (one of them filled with non-null values)
+2. Any of the following:
+   - `proj:transform` and `proj:shape`
+   - `proj:transform` and `proj:bbox`
+   - `proj:bbox` and `proj:shape`
 
 None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data,
 as they describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the

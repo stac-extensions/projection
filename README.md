@@ -108,7 +108,7 @@ or the Rasterio ([`Transform`](https://rasterio.readthedocs.io/en/stable/api/ras
 To get it on the command line you can use the [Rasterio CLI](https://rasterio.readthedocs.io/en/latest/cli.html) with the 
 [info](https://rasterio.readthedocs.io/en/latest/cli.html#info) command: `$ rio info`. 
 
-```
+```txt
   [Xp]   [a0, a1, a2]   [Pixel]
   [Yp] = [a3, a4, a5] * [Line ]
   [1 ]   [0 ,  0,  1]   [1    ]

@@ -108,7 +108,7 @@ or the Rasterio ([`Transform`](https://rasterio.readthedocs.io/en/stable/api/ras
 To get it on the command line you can use the [Rasterio CLI](https://rasterio.readthedocs.io/en/latest/cli.html) with the 
 [info](https://rasterio.readthedocs.io/en/latest/cli.html#info) command: `$ rio info`. 
 
-```
+```txt
   [Xp]   [a0, a1, a2]   [Pixel]
   [Yp] = [a3, a4, a5] * [Line ]
   [1 ]   [0 ,  0,  1]   [1    ]
@@ -119,7 +119,7 @@ If the transform is defined in Item Properties, it is used as the default transf
 Note that `GetGeoTransform` and `rasterio` use different formats for reporting transform information. Order expected in `proj:transform` is the
 same as reported by `rasterio`. When using GDAL method you need to re-order in the following way:
 
-```
+```python
 g = GetGeoTransform(...)
 proj_transform = [g[1], g[2], g[0],
                   g[4], g[5], g[3],

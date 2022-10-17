@@ -5,15 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
-## [v1.1.0] - 2023-02-08
+### Changed
+- Definition for authority and code instead of a hard coded EPSG. The EPSG code field was maintained for backwards compatibility.
+## [v1.1.0] - 2023-02-10
 
 ### Added
 
 - Added examples for Collections and Assets (in Items)
 
 ### Changed
-
 - `proj:epsg` is not required in Item properties anymore. `proj:epsg` is recommended now, but not required in any scope.
 - Updated the PROJJSON schema to v0.5
 

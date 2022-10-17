@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+  "$id": "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
   "title": "Projection Extension",
   "description": "STAC Projection Extension for STAC Items.",
   "$comment": "This schema succeeds if the proj: fields are not used at all, please keep this in mind.",
@@ -23,7 +23,17 @@
               "const": "Feature"
             },
             "properties": {
-              "$ref": "#/definitions/fields"
+              "allOf": [
+                {
+                  "$comment": "Require fields here for item properties.",
+                  "required": [
+                    "proj:code"
+                  ]
+                },
+                {
+                  "$ref": "#/definitions/fields"
+                }
+              ]
             },
             "assets": {
               "type": "object",
@@ -85,6 +95,21 @@
     "fields": {
       "type": "object",
       "properties": {
+        "proj:authority":{
+          "title":"Authority granting the code",
+          "type":[
+            "string",
+            "null"
+          ],
+          "default":"epsg"
+        },
+        "proj:code":{
+          "title":"Projection code",
+          "type":[
+            "integer",
+            "null"
+          ]
+        },
         "proj:epsg":{
           "title":"EPSG code",
           "type":[

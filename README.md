@@ -64,7 +64,7 @@ This field should be set to `null` in the following cases:
 
 A Coordinate Reference System (CRS) is the data reference system (sometimes called a 'projection')
 used by the asset data. This value is a [PROJJSON](https://proj.org/specifications/projjson.html) object, 
-see the [JSON Schema](https://proj.org/schemas/v0.2/projjson.schema.json) for details.
+see the [JSON Schema](https://proj.org/schemas/v0.5/projjson.schema.json) for details.
 
 This field should be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.

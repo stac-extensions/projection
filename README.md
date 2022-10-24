@@ -159,6 +159,13 @@ like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to op
 [transform](#projtransform) together with the core description of the CRS provide enough information about the size and shape of
 the data in the file so that tools don't have to open it.
 
+For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) the following fields: 
+1. `proj:epsg`, `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
+2. Any of the following:
+   - `proj:transform` and `proj:shape`
+   - `proj:transform` and `proj:bbox`
+   - `proj:bbox` and `proj:shape`
+
 None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data,
 as they describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the
 EPSG code if it's available, as it's a fairly standard piece of metadata, and [see below](#crs-description-recommendations) for more

@@ -154,7 +154,7 @@ like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to op
 the data in the file so that tools don't have to open it.
 
 For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) the following fields: 
-1. `proj:epsg`, `proj:wkt2` or `projjson` (one of them filled with non-null values)
+1. `proj:epsg`, `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
 2. Any of the following:
    - `proj:transform` and `proj:shape`
    - `proj:transform` and `proj:bbox`

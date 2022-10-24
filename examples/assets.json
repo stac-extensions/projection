@@ -4,7 +4,7 @@
     "https://stac-extensions.github.io/projection/v1.0.0/schema.json"
   ],
   "type": "Feature",
-  "id": "20201211_223832_CS2",
+  "id": "20201211_223832_CS2_A",
   "bbox": [
     172.91173669923782,
     1.3438851951615003,
@@ -45,23 +45,6 @@
     "platform": "cool_sat2",
     "instruments": [
       "cool_sensor_v1"
-    ],
-    "gsd": 0.66,
-    "proj:epsg": 32659,
-    "proj:shape": [
-      5558,
-      9559
-    ],
-    "proj:transform": [
-      0.5,
-      0,
-      712710,
-      0,
-      -0.5,
-      151406,
-      0,
-      0,
-      1
     ]
   },
   "links": [
@@ -78,14 +61,31 @@
       "title": "4-Band Analytic",
       "roles": [
         "data"
+      ],
+      "gsd": 0.66,
+      "proj:epsg": 32659,
+      "proj:shape": [
+        5558,
+        9559
+      ],
+      "proj:transform": [
+        0.5,
+        0,
+        712710,
+        0,
+        -0.5,
+        151406,
+        0,
+        0,
+        1
       ]
     },
-    "visual": {
-      "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2.tif",
-      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
-      "title": "3-Band Visual",
+    "thumbnail": {
+      "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2.jpg",
+      "title": "Thumbnail",
+      "type": "image/png",
       "roles": [
-        "visual"
+        "thumbnail"
       ]
     }
   },

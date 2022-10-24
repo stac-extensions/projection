@@ -17,14 +17,23 @@ e.g., a UTM Zone. However, there may also be Assets intended for display, like a
 been reprojected to a different CRS, e.g., Web Mercator, or resized to better accommodate that use case. In this case, the 
 fields should be specified at the Item Asset level, while those Item Asset objects that use the defaults can remain unspecified.
 
+The `proj` prefix is short for "projection", and is not a reference to the PROJ/PROJ4 formats.
+
 - Examples:
-  - [Item example](examples/item.json)
+  - [Item example](examples/item.json): Shows the basic usage of the extension in a STAC Item
+  - [Assets in Item example](examples/assets.json): Shows the basic usage of the extension in STAC Assets (in a STAC Item)
+  - [Collection example](examples/collection.json): Shows the basic usage of the extension in a STAC Collection (Item Assets Definiton and Summaries)
 - [JSON Schema](json-schema/schema.json)
 - [Changelog](./CHANGELOG.md)
 
-## Item Properties or Asset Fields
+## Fields
 
-The `proj` prefix is short for "projection", and is not a reference to the PROJ/PROJ4 formats.
+The fields in the table below can be used in these parts of STAC documents:
+- [ ] Catalogs
+- [x] Collections
+- [x] Item Properties (incl. Summaries in Collections)
+- [x] Assets (for both Collections and Items, incl. Item Asset Definitions in Collections)
+- [ ] Links
 
 | Field Name       | Type                     | Description |
 | ---------------- | ------------------------ | ----------- |
@@ -36,6 +45,9 @@ The `proj` prefix is short for "projection", and is not a reference to the PROJ/
 | proj:centroid    | [Centroid Object](#centroid-object) | Coordinates representing the centroid of the Item (in lat/long) |
 | proj:shape       | \[integer]      | Number of pixels in Y and X directions for the default grid |
 | proj:transform   | \[number]       | The affine transformation coefficients for the default grid  |
+
+If any of the fields is used, `proj:epsg` is required in the scope where the field is used.
+For example, if you use `proj:shape` is used in an Item Asset, you need to specify `proj:epsg` in that specific Asset, too.
 
 ### Additional Field Information
 

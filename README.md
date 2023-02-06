@@ -210,7 +210,7 @@ is likely ok if you aren't worried about legacy client support.
 
 ### Thumbnails
 
-For (unlocated) thumbnails and similar imagery, it is recommended to add `proj:shape` with `proj:epsg` set to `null`
+For (unlocated) thumbnails and similar imagery, it is recommended set `proj:epsg` to `null` and include `proj:shape`
 so that
 1. clients can read the image dimensions upfront (and reserve space for them), and
 2. you explicitly state that the thumbnail is not geolocated.

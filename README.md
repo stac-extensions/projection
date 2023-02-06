@@ -67,25 +67,31 @@ filter for specific EPSG codes in an API.
 A Coordinate Reference System (CRS) is the data reference system (sometimes called a
 'projection') used by the asset data, and can usually be referenced using an 
 [EPSG code](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset).
-If the asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control
-Points, `proj:epsg` should be set to `null`. It should also be set to `null` if a CRS exists, but for which
-there is no valid EPSG code. A great tool to help find EPSG codes is [epsg.io](http://epsg.io/).
+A great tool to help find EPSG codes is [epsg.io](http://epsg.io/).
+
+This field SHOULD be set to `null` in the following cases:
+- The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
+- A CRS exists, but there is no valid EPSG code for it. In this case, the CRS should be provided in `proj:wkt2` and/or `proj:projjson`.
+  Clients can prefer to take either, although there may be discrepancies in how each might be interpreted.
 
 #### proj:wkt2
 
-A Coordinate Reference System (CRS) is the data reference system (sometimes called a
-'projection') used by the asset data. This value is a [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string.
-If the data does not have a CRS, such as in the case of non-rectified imagery with Ground Control
-Points, proj:wkt2 should be set to null. It should also be set to null if a CRS exists, but for which
-a WKT2 string does not exist.
+A Coordinate Reference System (CRS) is the data reference system (sometimes called a 'projection')
+used by the asset data. This value is a [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string.
+
+This field SHOULD be set to `null` in the following cases:
+- The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
+- A CRS exists, but there is no valid WKT2 string for it.
 
 #### proj:projjson
 
-A Coordinate Reference System (CRS) is the data reference system (sometimes called a
-'projection') used by the asset data. This value is a [PROJJSON](https://proj.org/specifications/projjson.html) object.
-If the data does not have a CRS, such as in the case of non-rectified imagery with Ground Control
-Points, proj:projjson should be set to null. It should also be set to null if a CRS exists, but for which
-a PROJJSON string does not exist. The schema for this object can be found [here](https://proj.org/schemas/v0.2/projjson.schema.json).
+A Coordinate Reference System (CRS) is the data reference system (sometimes called a 'projection')
+used by the asset data. This value is a [PROJJSON](https://proj.org/specifications/projjson.html) object, 
+see the [JSON Schema](https://proj.org/schemas/v0.5/projjson.schema.json) for details.
+
+This field SHOULD be set to `null` in the following cases:
+- The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
+- A CRS exists, but there is no valid WKT2 string for it.
 
 #### proj:geometry
 
@@ -175,6 +181,13 @@ of the asset's data, so it doesn't have to reproject (which can be lossy and tak
 like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to open the actual imagery file. [shape](#projshape) and
 [transform](#projtransform) together with the core description of the CRS provide enough information about the size and shape of
 the data in the file so that tools don't have to open it.
+
+For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) the following fields: 
+1. `proj:epsg`, `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
+2. Any of the following:
+   - `proj:transform` and `proj:shape`
+   - `proj:transform` and `proj:bbox`
+   - `proj:bbox` and `proj:shape`
 
 None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data,
 as they describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the

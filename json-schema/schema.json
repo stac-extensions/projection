@@ -103,7 +103,7 @@
           "title":"Coordinate Reference System in PROJJSON format",
           "oneOf": [
             {
-              "$ref": "https://proj.org/schemas/v0.4/projjson.schema.json"
+              "$ref": "https://proj.org/schemas/v0.5/projjson.schema.json"
             },
             {
               "type": "null"

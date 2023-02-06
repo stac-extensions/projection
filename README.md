@@ -208,6 +208,20 @@ WKT2 and PROJJSON are equivalent to one another - more clients understand WKT2, 
 structure, since they are both JSON. For now it's probably best to use both for maximum interoperability, but just using PROJJSON 
 is likely ok if you aren't worried about legacy client support.
 
+### Thumbnails
+
+For (unlocated) thumbnails and similar imagery, it is recommended to add `proj:shape` with `proj:epsg` set to `null`
+so that
+1. clients can read the image dimensions upfront (and reserve space for them), and
+2. you explicitly state that the thumbnail is not geolocated.
+
+This is also recommended in case you have 'global' projection information in the Item properties.
+The fields on the asset level override the Item Properties and as such client don't apply the 'global' projection details
+falsely to the thumbnails.
+
+Client implementations should be careful about the order in `proj:shape`.
+Usually, image dimensions are given in width-height (x-y) order, but `proj:shape` lists the height first.
+
 ## Contributing
 
 All contributions are subject to the

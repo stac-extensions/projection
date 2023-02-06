@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `proj:epsg` is not required in Item properties anymore. `proj:epsg` is recommended now, but not required in any scope.
+
 ### Deprecated
 
 ### Removed
@@ -19,9 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Added missing scope "Collection" to Readme. The scope was already supported in JSON Schemas.
-- Clarified that `proj:epsg` is not required in Item properties, except that another proj field is used there.
-  In general, `proj:epsg` is required in the scope where other proj fields are used.
-  The JSON Schema was fixed to reflect this.
 
 ## [v1.0.0] - 2021-03-30
 

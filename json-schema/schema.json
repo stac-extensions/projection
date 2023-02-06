@@ -23,12 +23,12 @@
               "const": "Feature"
             },
             "properties": {
-              "$ref": "#/definitions/proj"
+              "$ref": "#/definitions/fields"
             },
             "assets": {
               "type": "object",
               "additionalProperties": {
-                "$ref": "#/definitions/proj"
+                "$ref": "#/definitions/fields"
               }
             }
           }
@@ -50,13 +50,13 @@
             "assets": {
               "type": "object",
               "additionalProperties": {
-                "$ref": "#/definitions/proj"
+                "$ref": "#/definitions/fields"
               }
             },
             "item_assets": {
               "type": "object",
               "additionalProperties": {
-                "$ref": "#/definitions/proj"
+                "$ref": "#/definitions/fields"
               }
             }
           }
@@ -80,31 +80,6 @@
             "const": "https://stac-extensions.github.io/projection/v1.0.0/schema.json"
           }
         }
-      }
-    },
-    "proj": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/require_epsg"
-        },
-        {
-          "$ref": "#/definitions/fields"
-        }
-      ]
-    },
-    "require_epsg": {
-      "$comment": "This requires proj:epsg if any of the proj: fields is present in the object.",
-      "type": "object",
-      "if": {
-        "patternProperties": {
-          "^(?!proj:)": {}
-        },
-        "additionalProperties": false
-      },
-      "else": {
-        "required": [
-          "proj:epsg"
-        ]
       }
     },
     "fields": {

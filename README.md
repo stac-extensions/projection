@@ -37,7 +37,7 @@ The fields in the table below can be used in these parts of STAC documents:
 
 | Field Name       | Type                     | Description |
 | ---------------- | ------------------------ | ----------- |
-| proj:epsg        | integer\|null   | **REQUIRED.** [EPSG code](http://www.epsg-registry.org/) of the datasource |
+| proj:epsg        | integer\|null   | [EPSG code](http://www.epsg-registry.org/) of the datasource |
 | proj:wkt2        | string\|null    | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:projjson    | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:geometry    | [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1) | Defines the footprint of this Item. |
@@ -46,8 +46,19 @@ The fields in the table below can be used in these parts of STAC documents:
 | proj:shape       | \[integer]      | Number of pixels in Y and X directions for the default grid |
 | proj:transform   | \[number]       | The affine transformation coefficients for the default grid  |
 
-If any of the fields is used, `proj:epsg` is required in the scope where the field is used.
-For example, if you use `proj:shape` is used in an Item Asset, you need to specify `proj:epsg` in that specific Asset, too.
+At least one of the fields MUST be specified, but it is RECOMMENDED to provide more information as detailed in the
+[Best Practices section](#best-practices) so that, for example, GDAL can read your data without issues.
+
+Also, [version 1.0.0](https://github.com/stac-extensions/projection/releases/tag/v1.0.0) of this extension
+required `proj:epsg` (either as integer or null) in Item Properties.
+This is not required anymore, but it is still recommended to additionally provide an EPSG code whenever available.
+
+Generally, it is preferrable to provide the projection information on the Asset level
+as they are specific to assets and may not apply to all assets.
+For example, if you provide a smaller and unlocated thumbnail, having the projection information in the Item Properties
+would imply that the projection information also applies to the thumbnail, which is not the case.
+You may want to add the EPSG code to the Item Properties though as this would provide an easy way to
+filter for specific EPSG codes in an API.
 
 ### Additional Field Information
 
@@ -57,7 +68,7 @@ A Coordinate Reference System (CRS) is the data reference system (sometimes call
 'projection') used by the asset data, and can usually be referenced using an 
 [EPSG code](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset).
 If the asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control
-Points, `proj:epsg` should be set to null. It should also be set to null if a CRS exists, but for which
+Points, `proj:epsg` should be set to `null`. It should also be set to `null` if a CRS exists, but for which
 there is no valid EPSG code. A great tool to help find EPSG codes is [epsg.io](http://epsg.io/).
 
 #### proj:wkt2
@@ -152,7 +163,7 @@ This object represents the centroid of the Item Geometry.
 There are several projection extension fields with potentially overlapping functionality. This section attempts to 
 give an overview of which ones you should consider using. They fit into three general categories:
 
-- **Description of the coordinate reference system:** [EPSG code](#projepsg) is the default, but it is just a reference to known
+- **Description of the coordinate reference system:** [EPSG code](#projepsg) is recommended, but it is just a reference to known
 projection information. [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to fully describe the projection information. 
 This is typically done for projections that aren't available or fully described in the [EPSG Registry](https://epsg.org/). 
 For example, the MODIS Sinusoidal projection does not have an EPSG code, but can be described using WKT2 or PROJJSON.

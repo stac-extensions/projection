@@ -18,7 +18,9 @@ been reprojected to a different CRS, e.g., Web Mercator, or resized to better ac
 fields should be specified at the Item Asset level, while those Item Asset objects that use the defaults can remain unspecified.
 
 - Examples:
-  - [Item example](examples/item.json)
+  - [Item example](examples/item.json): Shows the basic usage of the extension in a STAC Item
+  - [Assets in Item example](examples/assets.json): Shows the basic usage of the extension in STAC Assets (in a STAC Item)
+  - [Collection example](examples/collection.json): Shows the basic usage of the extension in a STAC Collection (Item Assets Definiton and Summaries)
 - [JSON Schema](json-schema/schema.json)
 - [Changelog](./CHANGELOG.md)
 

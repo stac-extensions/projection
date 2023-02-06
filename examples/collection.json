@@ -1,0 +1,85 @@
+{
+  "stac_version": "1.0.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json"
+  ],
+  "type": "Collection",
+  "id": "proj-example",
+  "description": "An example for the projection extension in Collections based on Planet data.",
+  "links": [
+    {
+      "rel": "item",
+      "href": "./item.json",
+      "title": "Proj in Items"
+    },
+    {
+      "rel": "item",
+      "href": "./item-assets.json",
+      "title": "Proj in Items Assets"
+    }
+  ],
+  "title": "Projection Extension example",
+  "item_assets": {
+    "analytic": {
+      "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+      "title": "4-Band Analytic",
+      "roles": [
+        "data"
+      ],
+      "gsd": 0.66,
+      "proj:epsg": 32659,
+      "proj:shape": [
+        5558,
+        9559
+      ],
+      "proj:transform": [
+        0.5,
+        0,
+        712710,
+        0,
+        -0.5,
+        151406,
+        0,
+        0,
+        1
+      ]
+    }
+  },
+  "summaries": {
+    "platform": [
+      "cool_sat2"
+    ],
+    "instruments": [
+      "cool_sensor_v1"
+    ],
+    "gsd": [
+      0.66
+    ],
+    "proj:epsg": [
+      32659,
+      null
+    ]
+  },
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          172.91173669923782,
+          1.3438851951615003,
+          172.95469614953714,
+          1.3690476620161975
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2020-12-11T22:38:32.125Z",
+          "2020-12-11T22:38:32.125Z"
+        ]
+      ]
+    }
+  },
+  "license": "PDDL-1.0"
+}

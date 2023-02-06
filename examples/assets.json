@@ -1,7 +1,7 @@
 {
   "stac_version": "1.0.0",
   "stac_extensions": [
-    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+    "https://stac-extensions.github.io/projection/v1.0.0/schema.json"
   ],
   "type": "Feature",
   "id": "20201211_223832_CS2_A",
@@ -43,7 +43,7 @@
     "created": "2020-12-12T01:48:13.725Z",
     "updated": "2020-12-12T01:48:13.725Z",
     "platform": "cool_sat2",
-    "proj:epsg": 32659,
+    "proj:epsg": null,
     "instruments": [
       "cool_sensor_v1"
     ]
@@ -84,11 +84,6 @@
     "thumbnail": {
       "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2.jpg",
       "title": "Thumbnail",
-      "proj:epsg": null,
-      "proj:shape": [
-        800,
-        800
-      ],
       "type": "image/png",
       "roles": [
         "thumbnail"

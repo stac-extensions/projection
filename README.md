@@ -56,9 +56,10 @@ This is not required anymore, but it is still recommended to additionally provid
 Generally, it is preferrable to provide the projection information on the Asset level
 as they are specific to assets and may not apply to all assets.
 For example, if you provide a smaller and unlocated thumbnail, having the projection information in the Item Properties
-would imply that the projection information also applies to the thumbnail, which is not the case.
+would imply that the projection information also applies to the thumbnail if not specified otherwise in the asset.
 You may want to add the EPSG code to the Item Properties though as this would provide an easy way to
 filter for specific EPSG codes in an API.
+In this case you could override the EPSG code for the thumbnail on the asset level.
 
 ### Additional Field Information
 
@@ -159,10 +160,10 @@ proj_transform = [g[1], g[2], g[0],
 
 This object represents the centroid of the Item Geometry.
 
-| Field Name          | Type   | Description                                                  |
-| ------------------- | ------ | ------------------------------------------------------------ |
-| lat                 | number | The latitude of the centroid.  |
-| lon                 | number | The longitude of the centroid. |
+| Field Name | Type   | Description                    |
+| ---------- | ------ | ------------------------------ |
+| lat        | number | The latitude of the centroid.  |
+| lon        | number | The longitude of the centroid. |
 
 ## Best Practices
 

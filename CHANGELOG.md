@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `proj:epsg` is not required in Item properties anymore. `proj:epsg` is recommended now, but not required in any scope.
 - Updated the PROJJSON schema to v0.5
 
 ### Deprecated

@@ -72,7 +72,7 @@ A Coordinate Reference System (CRS) is the data reference system (sometimes call
 [EPSG code](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset).
 A great tool to help find EPSG codes is [epsg.io](http://epsg.io/).
 
-This field must be set to `null` in the following cases:
+This field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid EPSG code for it. In this case, the CRS should be provided in `proj:wkt2` and/or `proj:projjson`.
   Clients can prefer to take either, although there may be discrepancies in how each might be interpreted.
@@ -82,7 +82,7 @@ This field must be set to `null` in the following cases:
 A Coordinate Reference System (CRS) is the data reference system (sometimes called a 'projection')
 used by the asset data. This value is a [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string.
 
-This field should be set to `null` in the following cases:
+This field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid WKT2 string for it.
 
@@ -92,7 +92,7 @@ A Coordinate Reference System (CRS) is the data reference system (sometimes call
 used by the asset data. This value is a [PROJJSON](https://proj.org/specifications/projjson.html) object, 
 see the [JSON Schema](https://proj.org/schemas/v0.5/projjson.schema.json) for details.
 
-This field should be set to `null` in the following cases:
+This field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid WKT2 string for it.
 

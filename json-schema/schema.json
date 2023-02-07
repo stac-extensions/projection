@@ -23,17 +23,7 @@
               "const": "Feature"
             },
             "properties": {
-              "allOf": [
-                {
-                  "$comment": "Require fields here for item properties.",
-                  "required": [
-                    "proj:code"
-                  ]
-                },
-                {
-                  "$ref": "#/definitions/fields"
-                }
-              ]
+              "$ref": "#/definitions/fields"
             },
             "assets": {
               "type": "object",

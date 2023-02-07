@@ -17,6 +17,8 @@ e.g., a UTM Zone. However, there may also be Assets intended for display, like a
 been reprojected to a different CRS, e.g., Web Mercator, or resized to better accommodate that use case. In this case, the 
 fields should be specified at the Item Asset level, while those Item Asset objects that use the defaults can remain unspecified.
 
+The `proj` prefix is short for "projection", and is not a reference to the PROJ/PROJ4 formats.
+
 - Examples:
   - [Item example](examples/item.json): Shows the basic usage of the extension in a STAC Item
   - [Assets in Item example](examples/assets.json): Shows the basic usage of the extension in STAC Assets (in a STAC Item)
@@ -24,13 +26,18 @@ fields should be specified at the Item Asset level, while those Item Asset objec
 - [JSON Schema](json-schema/schema.json)
 - [Changelog](./CHANGELOG.md)
 
-## Item Properties or Asset Fields
+## Fields
 
-The `proj` prefix is short for "projection", and is not a reference to the PROJ/PROJ4 formats.
+The fields in the table below can be used in these parts of STAC documents:
+- [ ] Catalogs
+- [x] Collections
+- [x] Item Properties (incl. Summaries in Collections)
+- [x] Assets (for both Collections and Items, incl. Item Asset Definitions in Collections)
+- [ ] Links
 
 | Field Name       | Type                     | Description |
 | ---------------- | ------------------------ | ----------- |
-| proj:epsg        | integer\|null   | **REQUIRED.** [EPSG code](http://www.epsg-registry.org/) of the datasource |
+| proj:epsg        | integer\|null   | [EPSG code](http://www.epsg-registry.org/) of the datasource |
 | proj:wkt2        | string\|null    | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:projjson    | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:geometry    | [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1) | Defines the footprint of this Item. |
@@ -38,6 +45,21 @@ The `proj` prefix is short for "projection", and is not a reference to the PROJ/
 | proj:centroid    | [Centroid Object](#centroid-object) | Coordinates representing the centroid of the Item (in lat/long) |
 | proj:shape       | \[integer]      | Number of pixels in Y and X directions for the default grid |
 | proj:transform   | \[number]       | The affine transformation coefficients for the default grid  |
+
+At least one of the fields MUST be specified, but it is RECOMMENDED to provide more information as detailed in the
+[Best Practices section](#best-practices) so that, for example, GDAL can read your data without issues.
+
+Also, [version 1.0.0](https://github.com/stac-extensions/projection/releases/tag/v1.0.0) of this extension
+required `proj:epsg` (either as integer or null) in Item Properties.
+This is not required anymore, but it is still recommended to additionally provide an EPSG code whenever available.
+
+Generally, it is preferrable to provide the projection information on the Asset level
+as they are specific to assets and may not apply to all assets.
+For example, if you provide a smaller and unlocated thumbnail, having the projection information in the Item Properties
+would imply that the projection information also applies to the thumbnail if not specified otherwise in the asset.
+You may want to add the EPSG code to the Item Properties though as this would provide an easy way to
+filter for specific EPSG codes in an API.
+In this case you could override the EPSG code for the thumbnail on the asset level.
 
 ### Additional Field Information
 
@@ -48,7 +70,7 @@ A Coordinate Reference System (CRS) is the data reference system (sometimes call
 [EPSG code](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset).
 A great tool to help find EPSG codes is [epsg.io](http://epsg.io/).
 
-This field must be set to `null` in the following cases:
+This field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid EPSG code for it. In this case, the CRS should be provided in `proj:wkt2` and/or `proj:projjson`.
   Clients can prefer to take either, although there may be discrepancies in how each might be interpreted.
@@ -58,7 +80,7 @@ This field must be set to `null` in the following cases:
 A Coordinate Reference System (CRS) is the data reference system (sometimes called a 'projection')
 used by the asset data. This value is a [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string.
 
-This field should be set to `null` in the following cases:
+This field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid WKT2 string for it.
 
@@ -68,7 +90,7 @@ A Coordinate Reference System (CRS) is the data reference system (sometimes call
 used by the asset data. This value is a [PROJJSON](https://proj.org/specifications/projjson.html) object, 
 see the [JSON Schema](https://proj.org/schemas/v0.5/projjson.schema.json) for details.
 
-This field should be set to `null` in the following cases:
+This field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid WKT2 string for it.
 
@@ -138,17 +160,17 @@ proj_transform = [g[1], g[2], g[0],
 
 This object represents the centroid of the Item Geometry.
 
-| Field Name          | Type   | Description                                                  |
-| ------------------- | ------ | ------------------------------------------------------------ |
-| lat                 | number | The latitude of the centroid.  |
-| lon                 | number | The longitude of the centroid. |
+| Field Name | Type   | Description                    |
+| ---------- | ------ | ------------------------------ |
+| lat        | number | The latitude of the centroid.  |
+| lon        | number | The longitude of the centroid. |
 
 ## Best Practices
 
 There are several projection extension fields with potentially overlapping functionality. This section attempts to 
 give an overview of which ones you should consider using. They fit into three general categories:
 
-- **Description of the coordinate reference system:** [EPSG code](#projepsg) is the default, but it is just a reference to known
+- **Description of the coordinate reference system:** [EPSG code](#projepsg) is recommended, but it is just a reference to known
 projection information. [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to fully describe the projection information. 
 This is typically done for projections that aren't available or fully described in the [EPSG Registry](https://epsg.org/). 
 For example, the MODIS Sinusoidal projection does not have an EPSG code, but can be described using WKT2 or PROJJSON.
@@ -185,6 +207,20 @@ supplies the exact information for projection software to do the exact projectio
 WKT2 and PROJJSON are equivalent to one another - more clients understand WKT2, but PROJJSON fits more nicely in the STAC JSON 
 structure, since they are both JSON. For now it's probably best to use both for maximum interoperability, but just using PROJJSON 
 is likely ok if you aren't worried about legacy client support.
+
+### Thumbnails
+
+For (unlocated) thumbnails and similar imagery, it is recommended set `proj:epsg` to `null` and include `proj:shape`
+so that
+1. clients can read the image dimensions upfront (and reserve space for them), and
+2. you explicitly state that the thumbnail is not geolocated.
+
+This is also recommended in case you have 'global' projection information in the Item properties.
+The fields on the asset level override the Item Properties and as such client don't apply the 'global' projection details
+falsely to the thumbnails.
+
+Client implementations should be careful about the order in `proj:shape`.
+Usually, image dimensions are given in width-height (x-y) order, but `proj:shape` lists the height first.
 
 ## Contributing
 

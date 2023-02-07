@@ -80,14 +80,6 @@
         "data"
       ]
     },
-    "thumbnail": {
-      "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2.jpg",
-      "title": "Thumbnail",
-      "type": "image/png",
-      "roles": [
-        "thumbnail"
-      ]
-    },
     "visual": {
       "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2.tif",
       "type": "image/tiff; application=geotiff; profile=cloud-optimized",

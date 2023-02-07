@@ -3,10 +3,14 @@
   "$id": "https://stac-extensions.github.io/projection/v1.0.0/schema.json",
   "title": "Projection Extension",
   "description": "STAC Projection Extension for STAC Items.",
+  "$comment": "This schema succeeds if the proj: fields are not used at all, please keep this in mind.",
   "oneOf": [
     {
       "$comment": "This is the schema for STAC Items.",
       "allOf": [
+        {
+          "$ref": "#/definitions/stac_extensions"
+        },
         {
           "type": "object",
           "required": [
@@ -19,17 +23,7 @@
               "const": "Feature"
             },
             "properties": {
-              "allOf": [
-                {
-                  "$comment": "Require fields here for item properties.",
-                  "required": [
-                    "proj:epsg"
-                  ]
-                },
-                {
-                  "$ref": "#/definitions/fields"
-                }
-              ]
+              "$ref": "#/definitions/fields"
             },
             "assets": {
               "type": "object",
@@ -38,9 +32,6 @@
               }
             }
           }
-        },
-        {
-          "$ref": "#/definitions/stac_extensions"
         }
       ]
     },
@@ -92,7 +83,6 @@
       }
     },
     "fields": {
-      "$comment": "Add your new fields here. Don't require them here, do that above in the item schema.",
       "type": "object",
       "properties": {
         "proj:epsg":{

@@ -47,7 +47,7 @@
       "cool_sensor_v1"
     ],
     "gsd": 0.66,
-    "proj:autority": "iau_2015",
+    "proj:authority": "iau_2015",
     "proj:code": "49900",
     "proj:shape": [
       5558,

@@ -37,7 +37,7 @@ The fields in the table below can be used in these parts of STAC documents:
 
 | Field Name       | Type                     | Description |
 | ---------------- | ------------------------ | ----------- |
-| proj:epsg        | string   | [EPSG code](http://www.epsg-registry.org/) of the datasource; Maintained for backwards compatability. Please use `proj:authority` and `proj:code`. |
+| proj:epsg        | integer   | [EPSG code](http://www.epsg-registry.org/) of the datasource; Maintained for backwards compatability and will be deprecated in V2.0.0. Please use `proj:authority` and `proj:code`. |
 | proj:code        | string   | [EPSG code](http://www.epsg-registry.org/) or other code (e.g., [IAU](http://voparis-vespa-crs.obspm.fr:8080/web/2015.html)) of the datasource |
 | proj:authority   | string    | The name of the authority that designated the proj:code of the datasource. |
 | proj:wkt2        | string\|null    | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
@@ -49,7 +49,8 @@ The fields in the table below can be used in these parts of STAC documents:
 | proj:transform   | \[number]       | The affine transformation coefficients for the default grid  |
 
 At least one of the fields MUST be specified, but it is RECOMMENDED to provide more information as detailed in the
-[Best Practices section](#best-practices) so that, for example, GDAL can read your data without issues.
+[Best Practices section](#best-practices) so that, for example, GDAL can read your data without issues. 
+If specifying `proj:code` or `proj:authority`, both fields MUST be specified.
 
 Also, [version 1.0.0](https://github.com/stac-extensions/projection/releases/tag/v1.0.0) of this extension
 required `proj:epsg` (either as integer or null) in Item Properties.
@@ -62,6 +63,10 @@ would imply that the projection information also applies to the thumbnail if not
 You may want to add the EPSG code to the Item Properties though as this would provide an easy way to
 filter for specific EPSG codes in an API.
 In this case you could override the EPSG code for the thumbnail on the asset level.
+
+The projection authority is some domain governing body that defines commonly used projections. 
+The contents of this field are permissive and any string can be provided. In practice, it is preferable to use a known authority. 
+Examples include: `epsg`, `iau_2015`, or `ogc`.
 
 ### Additional Field Information
 

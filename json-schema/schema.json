@@ -87,11 +87,7 @@
       "properties": {
         "proj:authority":{
           "title":"Authority granting the code",
-          "type":"string",
-          "enum": [
-            "epsg",
-            "iau_2015"
-          ]
+          "type":"string"
         },
         "proj:code":{
           "title":"Projection code",
@@ -100,7 +96,7 @@
         "proj:epsg":{
           "title":"EPSG code",
           "type":[
-            "string",
+            "integer",
             "null"
           ]
         },
@@ -191,6 +187,10 @@
       },
       "patternProperties": {
         "^(?!proj:)": {}
+      },
+      "dependentRequired":{
+        "proj:code" : ["proj:authority"],
+        "proj:authority": ["proj:code"]
       },
       "additionalProperties": false
     }

@@ -1,7 +1,7 @@
 {
-  "stac_version": "1.0.0-rc.1",
+  "stac_version": "1.0.0",
   "stac_extensions": [
-    "https://stac-extensions.github.io/projection/v1.0.0/schema.json"
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
   ],
   "type": "Feature",
   "id": "20201211_223832_CS2",
@@ -65,7 +65,13 @@
       1
     ]
   },
-  "links": [],
+  "links": [
+    {
+      "href": "./collection.json",
+      "rel": "collection",
+      "type": "application/json"
+    }
+  ],
   "assets": {
     "analytic": {
       "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2_analytic.tif",
@@ -73,14 +79,6 @@
       "title": "4-Band Analytic",
       "roles": [
         "data"
-      ]
-    },
-    "thumbnail": {
-      "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2.jpg",
-      "title": "Thumbnail",
-      "type": "image/png",
-      "roles": [
-        "thumbnail"
       ]
     },
     "visual": {
@@ -91,5 +89,6 @@
         "visual"
       ]
     }
-  }
+  },
+  "collection": "proj-example"
 }

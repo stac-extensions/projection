@@ -37,9 +37,9 @@ The fields in the table below can be used in these parts of STAC documents:
 
 | Field Name       | Type                     | Description |
 | ---------------- | ------------------------ | ----------- |
-| proj:epsg        | integer   | [EPSG code](http://www.epsg-registry.org/) of the datasource; Maintained for backwards compatability and will be deprecated in V2.0.0. Please use `proj:authority` and `proj:code`. |
-| proj:code        | string   | [EPSG code](http://www.epsg-registry.org/) or other code (e.g., [IAU](http://voparis-vespa-crs.obspm.fr:8080/web/2015.html)) of the datasource |
-| proj:authority   | string    | The name of the authority that designated the proj:code of the datasource. |
+| proj:epsg        | integer\|null   | [EPSG code](http://www.epsg-registry.org/) of the datasource; Maintained for backwards compatability and will be deprecated in V2.0.0. Please use `proj:authority` and `proj:code`. |
+| proj:code        | string\|null   | [EPSG code](http://www.epsg-registry.org/) or other code (e.g., [IAU](http://voparis-vespa-crs.obspm.fr:8080/web/2015.html)) of the datasource |
+| proj:authority   | string\|null    | The name of the authority that designated the proj:code of the datasource. |
 | proj:wkt2        | string\|null    | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:projjson    | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:geometry    | [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1) | Defines the footprint of this Item. |
@@ -64,13 +64,11 @@ You may want to add the EPSG code to the Item Properties though as this would pr
 filter for specific EPSG codes in an API.
 In this case you could override the EPSG code for the thumbnail on the asset level.
 
-The projection authority is some domain governing body that defines commonly used projections. 
-The contents of this field are permissive and any string can be provided. In practice, it is preferable to use a known authority. 
-Examples include: `epsg`, `iau_2015`, or `ogc`.
-
 ### Additional Field Information
 
 #### proj:epsg
+
+**Notice**: This field will be deprecated in V2.0.0. See [proj:epsg Migration to V2](#projepsg-migration-to-v2).
 
 A Coordinate Reference System (CRS) is the data reference system (sometimes called a
 'projection') used by the asset data, and can usually be referenced using an 
@@ -81,6 +79,46 @@ This field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid EPSG code for it. In this case, the CRS should be provided in `proj:wkt2` and/or `proj:projjson`.
   Clients can prefer to take either, although there may be discrepancies in how each might be interpreted.
+
+#### proj:epsg Migration to V2
+`proj:epsg` will be deprecated in version 2.0.0 of this extension. Please use `proj:code` and `proj:authority`. For example, the following:
+
+```json
+{
+  ...
+  "proj:epsg": 32659,
+  ...
+}
+```
+would be represented as:
+```json
+{
+  ...
+  "proj:authority": "epsg",
+  "proj:code": 32659,
+  ...
+}
+```
+
+#### proj:authority
+
+The projection authority is some domain governing body that defines commonly used projections. 
+The contents of this field are permissive and any string can be provided. In practice, it is preferable 
+to use a known authority. 
+Examples include: `epsg`, `iau_2015`, or `ogc`.
+
+Specifying this field requires that the `proj:code` field also be specified.
+
+This field should be set to `null` in the following cases:
+- The projection authority is unknown. 
+#### proj:code
+
+Each authority identifies projections by a unique code. For example, WGS84 is identified by the EPSG authority using the 4326 code. 
+
+Specifying this field requires that the `proj:authority` field also be specified.
+
+This field should be set to `null` in the following cases:
+- The projection code is unknown.
 
 #### proj:wkt2
 

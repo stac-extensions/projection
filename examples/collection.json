@@ -28,7 +28,8 @@
         "data"
       ],
       "gsd": 0.66,
-      "proj:epsg": 32659,
+      "proj:code": 32659,
+      "proj:authority": "epsg",
       "proj:shape": [
         5558,
         9559
@@ -56,8 +57,12 @@
     "gsd": [
       0.66
     ],
-    "proj:epsg": [
+    "proj:code": [
       32659,
+      null
+    ],
+    "proj:authority": [
+      "epsg",
       null
     ]
   },

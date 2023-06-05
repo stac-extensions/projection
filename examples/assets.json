@@ -43,7 +43,8 @@
     "created": "2020-12-12T01:48:13.725Z",
     "updated": "2020-12-12T01:48:13.725Z",
     "platform": "cool_sat2",
-    "proj:epsg": 32659,
+    "proj:code": 32659,
+    "proj:authority": "epsg",
     "instruments": [
       "cool_sensor_v1"
     ]
@@ -64,7 +65,8 @@
         "data"
       ],
       "gsd": 0.66,
-      "proj:epsg": 32659,
+      "proj:code": 32659,
+      "proj:authority": "epsg",
       "proj:shape": [
         5558,
         9559
@@ -84,7 +86,8 @@
     "thumbnail": {
       "href": "https://storage.googleapis.com/open-cogs/stac-examples/20201211_223832_CS2.jpg",
       "title": "Thumbnail",
-      "proj:epsg": null,
+      "proj:code": null,
+      "proj:authority": null,
       "proj:shape": [
         800,
         800

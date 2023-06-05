@@ -38,7 +38,7 @@ The fields in the table below can be used in these parts of STAC documents:
 | Field Name       | Type                     | Description |
 | ---------------- | ------------------------ | ----------- |
 | proj:epsg        | integer\|null   | [EPSG code](http://www.epsg-registry.org/) of the datasource; Maintained for backwards compatability and will be deprecated in V2.0.0. Please use `proj:authority` and `proj:code`. |
-| proj:code        | string\|null   | [EPSG code](http://www.epsg-registry.org/) or other code (e.g., [IAU](http://voparis-vespa-crs.obspm.fr:8080/web/2015.html)) of the datasource |
+| proj:code        | string\|null   | Authority specific code of the data source (e.g., [EPSG](http://www.epsg-registry.org/), [IAU](http://voparis-vespa-crs.obspm.fr:8080/web/2015.html)) |
 | proj:authority   | string\|null    | The name of the authority that designated the `proj:code` of the datasource. |
 | proj:wkt2        | string\|null    | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:projjson    | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
@@ -102,18 +102,19 @@ would be represented as:
 
 #### proj:authority
 
-The projection authority is some domain governing body that defines commonly used projections. 
+The projection authority is some domain governing body that defines  projections. 
 The contents of this field are permissive and any string can be provided. In practice, it is preferable 
 to use a known authority. 
-Examples include: `epsg`, `iau_2015`, or `ogc`.
+Examples include `epsg`, `iau_2015`, and `ogc`.
 
 Specifying this field requires that the `proj:code` field also be specified.
 
 This field should be set to `null` in the following cases:
 - The projection authority is unknown. 
+
 #### proj:code
 
-Each authority identifies projections by a unique code. For example, WGS84 is identified by the EPSG authority using the 4326 code. 
+Each authority identifies projections by a unique code. For example, WGS84 is identified by the EPSG authority using the code `4326`. 
 
 Specifying this field requires that the `proj:authority` field also be specified.
 

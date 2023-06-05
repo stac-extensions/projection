@@ -39,7 +39,7 @@ The fields in the table below can be used in these parts of STAC documents:
 | ---------------- | ------------------------ | ----------- |
 | proj:epsg        | integer\|null   | [EPSG code](http://www.epsg-registry.org/) of the datasource; Maintained for backwards compatability and will be deprecated in V2.0.0. Please use `proj:authority` and `proj:code`. |
 | proj:code        | string\|null   | [EPSG code](http://www.epsg-registry.org/) or other code (e.g., [IAU](http://voparis-vespa-crs.obspm.fr:8080/web/2015.html)) of the datasource |
-| proj:authority   | string\|null    | The name of the authority that designated the proj:code of the datasource. |
+| proj:authority   | string\|null    | The name of the authority that designated the `proj:code` of the datasource. |
 | proj:wkt2        | string\|null    | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:projjson    | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:geometry    | [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1) | Defines the footprint of this Item. |

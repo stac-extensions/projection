@@ -85,18 +85,10 @@
     "fields": {
       "type": "object",
       "properties": {
-        "proj:authority":{
-          "title":"Authority granting the code",
-          "type":"string"
-        },
         "proj:code":{
           "title":"Projection code",
-          "type":"string"
-        },
-        "proj:epsg":{
-          "title":"EPSG code",
           "type":[
-            "integer",
+            "string",
             "null"
           ]
         },
@@ -187,10 +179,6 @@
       },
       "patternProperties": {
         "^(?!proj:)": {}
-      },
-      "dependentRequired":{
-        "proj:code" : ["proj:authority"],
-        "proj:authority": ["proj:code"]
       },
       "additionalProperties": false
     }

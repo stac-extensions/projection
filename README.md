@@ -61,7 +61,7 @@ In this case you could override the `proj:srid` for the thumbnail on the asset l
 
 #### proj:epsg
 
-**Notice**: This field has been removed in V2.0.0. See [proj:epsg Migration to V2](#projepsg-migration-to-v2).
+**Notice**: This field has been removed in V2.0.0. See [proj:epsg Migration to V2](#projepsg-migration-projsrid).
 
 #### proj:epsg Migration to proj:srid
 `proj:epsg` is removed in version 2.0.0 of this extension. Please use `proj:srid`. For example, the following:
@@ -84,7 +84,9 @@ would be represented as:
 
 #### proj:srid
 
-Projection codes are identified by a string. The [proj](https://proj.org/) library defines projections using "authority:code", e.g., "EPSG:4326" or "IAU_2015:30100". Different projection authorities may define different string formats.
+Projection codes are identified by a string. The [proj](https://proj.org/) library defines projections 
+using "authority:code", e.g., "EPSG:4326" or "IAU_2015:30100". Different projection authorities may define 
+different string formats.
 
 The `proj:srid` field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
@@ -186,8 +188,13 @@ This object represents the centroid of the Item Geometry.
 There are several projection extension fields with potentially overlapping functionality. This section attempts to 
 give an overview of which ones you should consider using. They fit into three general categories:
 
-- **Description of the coordinate reference system:** [proj:srid](#proj:srid) is recommended, but it is just a reference to known projection information. [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to fully describe the projection information. 
-This is typically done for projections that aren't available or fully described in a known registry (e.g., [EPSG Registry](https://epsg.org/) or [IAU Registry](http://www.opengis.net/def/crs/IAU/2015)). 
+- **Description of the coordinate reference system:** [proj:srid](#projsrid) is recommended, but it is just a 
+reference to known projection information. [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to 
+fully describe the projection information. 
+
+This is typically done for projections that aren't available or fully described in a known registry 
+(e.g., [EPSG Registry](https://epsg.org/) or [IAU Registry](http://www.opengis.net/def/crs/IAU/2015)). 
+
 For example, the MODIS Sinusoidal projection does not have an EPSG code, but can be described using WKT2 or PROJJSON.
 - **Description of the native geometry information:** STAC requires the geometry and bounding box, but they are only available
 in lat/long (EPSG:4326, IAU_2015:30100, IAU_2015:49900, etc.). But most remote sensing data does not come in that projection, so it is often useful for clients to have 

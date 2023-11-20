@@ -85,7 +85,7 @@
     "fields": {
       "type": "object",
       "properties": {
-        "proj:srid":{
+        "proj:code":{
           "title":"Projection code",
           "type":[
             "string",

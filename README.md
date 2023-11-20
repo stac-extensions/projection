@@ -85,12 +85,20 @@ would be represented as:
 
 Projection codes are identified by a string. The [proj](https://proj.org/) library defines projections 
 using "authority:code", e.g., "EPSG:4326" or "IAU_2015:30100". Different projection authorities may define 
-different string formats.
+different string formats. Examples of known projection authorities, where when can find well known codes that 
+clients are likely to support are listed in the following table.
+
+| Authority Name | URL |
+| -------------- |  --- |
+| European Petroleum Survey Groups (EPSG) |  http://www.opengis.net/def/crs/EPSG or http://epsg.org |
+| International Astronomical Union (IAU) | http://www.opengis.net/def/crs/IAU/2015 |
+| Open Geospatial Consortium (OGC) |  http://www.opengis.net/def/crs/OGC |
 
 The `proj:code` field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid EPSG code for it. In this case, the CRS should be provided in `proj:wkt2` and/or `proj:projjson`.
   Clients can prefer to take either, although there may be discrepancies in how each might be interpreted.
+
 
 #### proj:wkt2
 

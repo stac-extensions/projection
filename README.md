@@ -61,7 +61,7 @@ In this case you could override the `proj:srid` for the thumbnail on the asset l
 
 #### proj:epsg
 
-**Notice**: This field has been removed in V2.0.0. See [proj:epsg Migration to V2](#projepsg-migration-projsrid).
+**Notice**: This field has been removed in V2.0.0. See [proj:epsg Migration to V2](#projepsg-migration-to-projsrid).
 
 #### proj:epsg Migration to proj:srid
 `proj:epsg` is removed in version 2.0.0 of this extension. Please use `proj:srid`. For example, the following:
@@ -197,7 +197,8 @@ This is typically done for projections that aren't available or fully described 
 
 For example, the MODIS Sinusoidal projection does not have an EPSG code, but can be described using WKT2 or PROJJSON.
 - **Description of the native geometry information:** STAC requires the geometry and bounding box, but they are only available
-in lat/long (EPSG:4326, IAU_2015:30100, IAU_2015:49900, etc.). But most remote sensing data does not come in that projection, so it is often useful for clients to have 
+in lat/long (EPSG:4326, IAU_2015:30100, IAU_2015:49900, etc.). But most remote sensing data does not come in 
+that projection, so it is often useful for clients to have 
 the geometry information ([geometry](#projgeometry), [bbox](#projbbox), [centroid](#projcentroid)) in the coordinate reference system
 of the asset's data, so it doesn't have to reproject (which can be lossy and takes time). 
 - **Information to enable cataloging of data without opening assets:** Often it is useful to be able to construct a 'virtual layer',
@@ -205,14 +206,17 @@ like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to op
 [transform](#projtransform) together with the core description of the CRS provide enough information about the size and shape of
 the data in the file so that tools don't have to open it.
 
-For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) the following fields: 
+For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) 
+the following fields: 
 1. `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
 2. Any of the following:
    - `proj:transform` and `proj:shape`
    - `proj:transform` and `proj:bbox`
    - `proj:bbox` and `proj:shape`
 
-None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data, as they describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the code if it's available, as it's a fairly standard piece of metadata, and [see below](#crs-description-recommendations) for more
+None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data, as they
+ describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the code if it's
+  available, as it's a fairly standard piece of metadata, and [see below](#crs-description-recommendations) for more
 information about when to use WKT and PROJJSON. We do recommend including the shape and transform fields if you have cloud
 optimized geotiff's or some other cloud native format, to enable online tools to work with the assets more efficiently. This is
 especially useful if the data is likely to be mosaiced or otherwise processed together, so that tools don't have to open every 

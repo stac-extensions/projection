@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Definition for authority and code instead of a hard coded EPSG. The EPSG code field was maintained for backwards compatibility.
+
 ## [v1.1.0] - 2023-02-10
 
 ### Added

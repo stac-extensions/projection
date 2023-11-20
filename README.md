@@ -62,7 +62,7 @@ filter for specific projection codes in an API. In this case you could override 
 
 **Notice**: This field has been removed in V2.0.0. See [proj:epsg Migration to V2](#projepsg-migration-to-projcode).
 
-#### proj:epsg Migration to proj:code
+#### proj:epsg migration to proj:code
 `proj:epsg` is removed in version 2.0.0 of this extension. Please use `proj:code`. For example, the following:
 
 ```json

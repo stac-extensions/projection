@@ -1,7 +1,7 @@
 {
   "stac_version": "1.0.0",
   "stac_extensions": [
-    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+    "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
   ],
   "type": "Feature",
   "id": "20201211_223832_CS2",
@@ -47,7 +47,7 @@
       "cool_sensor_v1"
     ],
     "gsd": 0.66,
-    "proj:srid": "IAU_2015:49900",
+    "proj:code": "IAU_2015:49900",
     "proj:shape": [
       5558,
       9559

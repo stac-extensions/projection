@@ -28,7 +28,7 @@
         "data"
       ],
       "gsd": 0.66,
-      "proj:srid": "EPSG:32659",
+      "proj:code": "EPSG:32659",
       "proj:shape": [
         5558,
         9559
@@ -56,7 +56,7 @@
     "gsd": [
       0.66
     ],
-    "proj:srid": [
+    "proj:code": [
       32659,
       null
     ]

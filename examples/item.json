@@ -47,7 +47,7 @@
       "cool_sensor_v1"
     ],
     "gsd": 0.66,
-    "proj:srid": "EPSG:32659",
+    "proj:code": "EPSG:32659",
     "proj:shape": [
       5558,
       9559

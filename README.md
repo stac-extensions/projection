@@ -37,7 +37,7 @@ The fields in the table below can be used in these parts of STAC documents:
 
 | Field Name       | Type                     | Description |
 | ---------------- | ------------------------ | ----------- |
-| proj:srid        | string\|null   | Authority and specific code of the data source (e.g., ["EPSG:####"](https://epsg.org/), ["IAU:#####"](http://www.opengis.net/def/crs/IAU/2015)) |
+| proj:code        | string\|null   | Authority and specific code of the data source (e.g., ["EPSG:####"](https://epsg.org/), ["IAU:#####"](http://www.opengis.net/def/crs/IAU/2015)) |
 | proj:wkt2        | string\|null    | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:projjson    | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:geometry    | [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1) | Defines the footprint of this Item. |
@@ -53,17 +53,17 @@ Generally, it is preferrable to provide the projection information on the Asset 
 as they are specific to assets and may not apply to all assets.
 For example, if you provide a smaller and unlocated thumbnail, having the projection information in the Item Properties
 would imply that the projection information also applies to the thumbnail if not specified otherwise in the asset.
-You may want to add the `proj:srid`` to the Item Properties though as this would provide an easy way to
-filter for specific projection codes in an API. In this case you could override the `proj:srid` for the thumbnail on the asset level.
+You may want to add the `proj:code` to the Item Properties though as this would provide an easy way to
+filter for specific projection codes in an API. In this case you could override the `proj:code` for the thumbnail on the asset level.
 
 ### Additional Field Information
 
 #### proj:epsg
 
-**Notice**: This field has been removed in V2.0.0. See [proj:epsg Migration to V2](#projepsg-migration-to-projsrid).
+**Notice**: This field has been removed in V2.0.0. See [proj:epsg Migration to V2](#projepsg-migration-to-projcode).
 
-#### proj:epsg Migration to proj:srid
-`proj:epsg` is removed in version 2.0.0 of this extension. Please use `proj:srid`. For example, the following:
+#### proj:epsg Migration to proj:code
+`proj:epsg` is removed in version 2.0.0 of this extension. Please use `proj:code`. For example, the following:
 
 ```json
 {
@@ -76,18 +76,18 @@ would be represented as:
 ```json
 {
   ...
-  "proj:srid": "EPSG:32659",
+  "proj:code": "EPSG:32659",
   ...
 }
 ```
 
-#### proj:srid
+#### proj:code
 
 Projection codes are identified by a string. The [proj](https://proj.org/) library defines projections 
 using "authority:code", e.g., "EPSG:4326" or "IAU_2015:30100". Different projection authorities may define 
 different string formats.
 
-The `proj:srid` field SHOULD be set to `null` in the following cases:
+The `proj:code` field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid EPSG code for it. In this case, the CRS should be provided in `proj:wkt2` and/or `proj:projjson`.
   Clients can prefer to take either, although there may be discrepancies in how each might be interpreted.
@@ -115,14 +115,14 @@ This field SHOULD be set to `null` in the following cases:
 
 A GeoJSON Geometry object as defined in [RFC 7946, sections 3.1](https://tools.ietf.org/html/rfc7946)
 representing the footprint of this Item, except not necessarily in EPSG:4326 as required by RFC7946.
-Specified based on the `proj:srid`, `proj:projjson` or `proj:wkt2` fields (not necessarily EPSG:4326).
+Specified based on the `proj:code`, `proj:projjson` or `proj:wkt2` fields (not necessarily EPSG:4326).
 Usually, this will be represented by a Polygon with five coordinates, as the item in the asset data CRS should be
 a square aligned to the original CRS grid.
 
 #### proj:bbox
 
 Bounding box of the assets represented by this Item in the asset data CRS. Specified as 4 or 6
-coordinates based on the CRS defined in the `proj:srid`, `proj:projjson` or `proj:wkt2` fields.  First two numbers are coordinates
+coordinates based on the CRS defined in the `proj:code`, `proj:projjson` or `proj:wkt2` fields.  First two numbers are coordinates
 of the lower left corner, followed by coordinates of upper right corner, , e.g., \[west, south, east, north],
 \[xmin, ymin, xmax, ymax], \[left, down, right, up], or \[west, south, lowest, east, north, highest]. 
 The length of the array must be 2\*n where n is the number of dimensions. The array contains all axes of the southwesterly
@@ -187,7 +187,7 @@ This object represents the centroid of the Item Geometry.
 There are several projection extension fields with potentially overlapping functionality. This section attempts to 
 give an overview of which ones you should consider using. They fit into three general categories:
 
-- **Description of the coordinate reference system:** [proj:srid](#projsrid) is recommended, but it is just a 
+- **Description of the coordinate reference system:** [proj:code](#projcode) is recommended, but it is just a 
 reference to known projection information. [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to 
 fully describe the projection information. 
 
@@ -233,7 +233,7 @@ is likely ok if you aren't worried about legacy client support.
 
 ### Thumbnails
 
-For (unlocated) thumbnails and similar imagery, it is recommended set `proj:srid` to `null` and include `proj:shape`
+For (unlocated) thumbnails and similar imagery, it is recommended set `proj:code` to `null` and include `proj:shape`
 so that
 1. clients can read the image dimensions upfront (and reserve space for them), and
 2. you explicitly state that the thumbnail is not geolocated.

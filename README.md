@@ -54,8 +54,7 @@ as they are specific to assets and may not apply to all assets.
 For example, if you provide a smaller and unlocated thumbnail, having the projection information in the Item Properties
 would imply that the projection information also applies to the thumbnail if not specified otherwise in the asset.
 You may want to add the `proj:srid`` to the Item Properties though as this would provide an easy way to
-filter for specific projection codes in an API.
-In this case you could override the `proj:srid` for the thumbnail on the asset level.
+filter for specific projection codes in an API. In this case you could override the `proj:srid` for the thumbnail on the asset level.
 
 ### Additional Field Information
 

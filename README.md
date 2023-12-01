@@ -93,7 +93,7 @@ clients are likely to support are listed in the following table.
 | European Petroleum Survey Groups (EPSG) | <http://www.opengis.net/def/crs/EPSG> or <http://epsg.org> |
 | International Astronomical Union (IAU)  | <http://www.opengis.net/def/crs/IAU/2015>                  |
 | Open Geospatial Consortium (OGC)        | <http://www.opengis.net/def/crs/OGC>                       |
-| ESRI                                    | <https://spatialreference.org/ref/esri/ >                  |
+| ESRI                                    | <https://spatialreference.org/ref/esri/>                  |
 
 The `proj:code` field SHOULD be set to `null` in the following cases:
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.

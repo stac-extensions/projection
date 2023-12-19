@@ -91,8 +91,8 @@ clients are likely to support are listed in the following table.
 | Authority Name                          | URL                                                        |
 | --------------------------------------- | ---------------------------------------------------------- |
 | European Petroleum Survey Groups (EPSG) | <http://www.opengis.net/def/crs/EPSG> or <http://epsg.org> |
-| International Astronomical Union (IAU)  | <http://www.opengis.net/def/crs/IAU/2015>                  |
-| Open Geospatial Consortium (OGC)        | <http://www.opengis.net/def/crs/OGC>                       |
+| International Astronomical Union (IAU)  | <http://www.opengis.net/def/crs/IAU>                      |
+| Open Geospatial Consortium (OGC)        | <http://www.opengis.net/def/crs/OGC>                      |
 | ESRI                                    | <https://spatialreference.org/ref/esri/>                  |
 
 The `proj:code` field SHOULD be set to `null` in the following cases:

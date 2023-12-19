@@ -85,10 +85,10 @@
     "fields": {
       "type": "object",
       "properties": {
-        "proj:epsg":{
-          "title":"EPSG code",
+        "proj:code":{
+          "title":"Projection code",
           "type":[
-            "integer",
+            "string",
             "null"
           ]
         },

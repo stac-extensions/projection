@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+  "$id": "https://stac-extensions.github.io/projection/v1.2.0/schema.json",
   "title": "Projection Extension",
   "description": "STAC Projection Extension for STAC Items.",
   "$comment": "This schema succeeds if the proj: fields are not used at all, please keep this in mind.",
@@ -77,7 +77,7 @@
         "stac_extensions": {
           "type": "array",
           "contains": {
-            "const": "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+            "const": "https://stac-extensions.github.io/projection/v1.2.0/schema.json"
           }
         }
       }
@@ -89,7 +89,7 @@
           "deprecated": true,
           "title":"EPSG code",
           "type":[
-            "string",
+            "integer",
             "null"
           ]
         },

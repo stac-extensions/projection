@@ -85,6 +85,14 @@
     "fields": {
       "type": "object",
       "properties": {
+        "proj:epsg":{
+          "deprecated": true,
+          "title":"EPSG code",
+          "type":[
+            "string",
+            "null"
+          ]
+        },
         "proj:code":{
           "title":"Projection code",
           "type":[

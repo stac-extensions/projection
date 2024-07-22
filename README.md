@@ -14,7 +14,7 @@ This document explains the Projection Extension to the
 When specified in Item Properties, the values are assumed to apply to all Assets in that Item. For example, an Item may have
 several related Assets each representing a band or layer for the Item, and which typically all use the same CRS,
 e.g., a UTM Zone. However, there may also be Assets intended for display, like a preview image or thumbnail, that have
-been reprojected to a different CRS, e.g., Web Mercator, or resized to better accommodate that use case. In this case, the 
+been reprojected to a different CRS, e.g., Web Mercator, or resized to better accommodate that use case. In this case, the
 fields should be specified at the Item Asset level, while those Item Asset objects that use the defaults can remain unspecified.
 
 The `proj` prefix is short for "projection", and is not a reference to the PROJ/PROJ4 formats.
@@ -35,42 +35,67 @@ The fields in the table below can be used in these parts of STAC documents:
 - [x] Assets (for both Collections and Items, incl. Item Asset Definitions in Collections)
 - [ ] Links
 
-| Field Name       | Type                     | Description |
-| ---------------- | ------------------------ | ----------- |
-| proj:epsg        | integer\|null   | [EPSG code](http://www.epsg-registry.org/) of the datasource |
-| proj:wkt2        | string\|null    | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
-| proj:projjson    | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
-| proj:geometry    | [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1) | Defines the footprint of this Item. |
-| proj:bbox        | \[number]       | Bounding box of the Item in the asset CRS in 2 or 3 dimensions. |
-| proj:centroid    | [Centroid Object](#centroid-object) | Coordinates representing the centroid of the Item (in lat/long) |
-| proj:shape       | \[integer]      | Number of pixels in Y and X directions for the default grid |
-| proj:transform   | \[number]       | The affine transformation coefficients for the default grid  |
+| Field Name     | Type          | Description |
+| -------------- | ------------- | ----------- |
+| proj:code      | string\|null  | Authority and specific code of the data source (e.g., ["EPSG:####"](https://epsg.org/), ["IAU:#####"](http://www.opengis.net/def/crs/IAU/2015)) |
+| proj:epsg      | integer\|null | **DEPRECATED.** [EPSG code](http://www.epsg-registry.org/) of the datasource |
+| proj:wkt2      | string\|null  | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
+| proj:projjson  | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
+| proj:geometry  | [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1) | Defines the footprint of this Item. |
+| proj:bbox      | \[number]     | Bounding box of the Item in the asset CRS in 2 or 3 dimensions. |
+| proj:centroid  | [Centroid Object](#centroid-object) | Coordinates representing the centroid of the Item (in lat/long) |
+| proj:shape     | \[integer]    | Number of pixels in Y and X directions for the default grid |
+| proj:transform | \[number]     | The affine transformation coefficients for the default grid  |
 
 At least one of the fields MUST be specified, but it is RECOMMENDED to provide more information as detailed in the
 [Best Practices section](#best-practices) so that, for example, GDAL can read your data without issues.
-
-Also, [version 1.0.0](https://github.com/stac-extensions/projection/releases/tag/v1.0.0) of this extension
-required `proj:epsg` (either as integer or null) in Item Properties.
-This is not required anymore, but it is still recommended to additionally provide an EPSG code whenever available.
 
 Generally, it is preferrable to provide the projection information on the Asset level
 as they are specific to assets and may not apply to all assets.
 For example, if you provide a smaller and unlocated thumbnail, having the projection information in the Item Properties
 would imply that the projection information also applies to the thumbnail if not specified otherwise in the asset.
-You may want to add the EPSG code to the Item Properties though as this would provide an easy way to
-filter for specific EPSG codes in an API.
-In this case you could override the EPSG code for the thumbnail on the asset level.
+You may want to add the `proj:code` to the Item Properties though as this would provide an easy way to
+filter for specific projection codes in an API. In this case you could override the `proj:code` for the thumbnail on the asset level.
 
 ### Additional Field Information
 
 #### proj:epsg
 
-A Coordinate Reference System (CRS) is the data reference system (sometimes called a
-'projection') used by the asset data, and can usually be referenced using an 
-[EPSG code](https://en.wikipedia.org/wiki/EPSG_Geodetic_Parameter_Dataset).
-A great tool to help find EPSG codes is [epsg.io](http://epsg.io/).
+This field has been deprecated in v1.2.0 in favor of `proj:code`.
+`proj:epsg` will be removed in v2.0.0 of this extension.
 
-This field SHOULD be set to `null` in the following cases:
+For example, the following:
+
+```json
+{
+  "proj:epsg": 32659,
+}
+```
+
+would be represented as:
+
+```json
+{
+  "proj:code": "EPSG:32659",
+}
+```
+
+#### proj:code
+
+Projection codes are identified by a string. The [proj](https://proj.org/) library defines projections
+using "authority:code", e.g., "EPSG:4326" or "IAU_2015:30100". Different projection authorities may define
+different string formats. Examples of known projection authorities, where when can find well known codes that
+clients are likely to support are listed in the following table.
+
+| Authority Name                          | URL                                                        |
+| --------------------------------------- | ---------------------------------------------------------- |
+| European Petroleum Survey Groups (EPSG) | <http://www.opengis.net/def/crs/EPSG> or <http://epsg.org> |
+| International Astronomical Union (IAU)  | <http://www.opengis.net/def/crs/IAU>                      |
+| Open Geospatial Consortium (OGC)        | <http://www.opengis.net/def/crs/OGC>                      |
+| ESRI                                    | <https://spatialreference.org/ref/esri/>                  |
+
+The `proj:code` field SHOULD be set to `null` in the following cases:
+
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid EPSG code for it. In this case, the CRS should be provided in `proj:wkt2` and/or `proj:projjson`.
   Clients can prefer to take either, although there may be discrepancies in how each might be interpreted.
@@ -81,16 +106,18 @@ A Coordinate Reference System (CRS) is the data reference system (sometimes call
 used by the asset data. This value is a [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string.
 
 This field SHOULD be set to `null` in the following cases:
+
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid WKT2 string for it.
 
 #### proj:projjson
 
 A Coordinate Reference System (CRS) is the data reference system (sometimes called a 'projection')
-used by the asset data. This value is a [PROJJSON](https://proj.org/specifications/projjson.html) object, 
+used by the asset data. This value is a [PROJJSON](https://proj.org/specifications/projjson.html) object,
 see the [JSON Schema](https://proj.org/schemas/v0.5/projjson.schema.json) for details.
 
 This field SHOULD be set to `null` in the following cases:
+
 - The asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points.
 - A CRS exists, but there is no valid WKT2 string for it.
 
@@ -98,25 +125,25 @@ This field SHOULD be set to `null` in the following cases:
 
 A GeoJSON Geometry object as defined in [RFC 7946, sections 3.1](https://tools.ietf.org/html/rfc7946)
 representing the footprint of this Item, except not necessarily in EPSG:4326 as required by RFC7946.
-Specified based on the `proj:epsg`, `proj:projjson` or `proj:wkt2` fields (not necessarily EPSG:4326).
+Specified based on the `proj:code`, `proj:projjson` or `proj:wkt2` fields (not necessarily EPSG:4326).
 Usually, this will be represented by a Polygon with five coordinates, as the item in the asset data CRS should be
 a square aligned to the original CRS grid.
 
 #### proj:bbox
 
 Bounding box of the assets represented by this Item in the asset data CRS. Specified as 4 or 6
-coordinates based on the CRS defined in the `proj:epsg`, `proj:projjson` or `proj:wkt2` fields.  First two numbers are coordinates
+coordinates based on the CRS defined in the `proj:code`, `proj:projjson` or `proj:wkt2` fields.  First two numbers are coordinates
 of the lower left corner, followed by coordinates of upper right corner, , e.g., \[west, south, east, north],
-\[xmin, ymin, xmax, ymax], \[left, down, right, up], or \[west, south, lowest, east, north, highest]. 
+\[xmin, ymin, xmax, ymax], \[left, down, right, up], or \[west, south, lowest, east, north, highest].
 The length of the array must be 2\*n where n is the number of dimensions. The array contains all axes of the southwesterly
-most extent followed by all axes of the northeasterly most extent specified in Longitude/Latitude or Longitude/Latitude/Elevation 
-based on [WGS 84](http://www.opengis.net/def/crs/OGC/1.3/CRS84). When using 3D geometries, the elevation of the southwesterly most 
+most extent followed by all axes of the northeasterly most extent specified in Longitude/Latitude or Longitude/Latitude/Elevation
+based on [WGS 84](http://www.opengis.net/def/crs/OGC/1.3/CRS84). When using 3D geometries, the elevation of the southwesterly most
 extent is the minimum elevation in meters and the elevation of the northeasterly most extent is the maximum in meters.
 
 #### proj:centroid
 
-Coordinates representing the centroid of the Item. Coordinates are defined in latitude and longitude, even if 
-the data coordinate system does not use lat/long. This is to enable less sophisticated mapping tools to be able to render the 
+Coordinates representing the centroid of the Item. Coordinates are defined in latitude and longitude, even if
+the data coordinate system does not use lat/long. This is to enable less sophisticated mapping tools to be able to render the
 location of the Item, as some only handle points. Note that the centroid is best calculated in the native CRS and then projected
 into lat/long, as some projections can wrap the centroid location.
 
@@ -130,13 +157,13 @@ the default shape for all assets that don't have an overriding shape. This can b
 
 #### proj:transform
 
-Linear mapping from pixel coordinate space (Pixel, Line) to projection coordinate space (Xp, Yp). It is 
-a `3x3` matrix stored as a flat array of 9 elements in row major order. Since the last row is always `0,0,1` it can be omitted, 
+Linear mapping from pixel coordinate space (Pixel, Line) to projection coordinate space (Xp, Yp). It is
+a `3x3` matrix stored as a flat array of 9 elements in row major order. Since the last row is always `0,0,1` it can be omitted,
 in which case only 6 elements are recorded. This mapping can be obtained from 
 GDAL([`GetGeoTransform`](https://gdal.org/api/gdaldataset_cpp.html#_CPPv4N11GDALDataset15GetGeoTransformEPd), requires re-ordering)
-or the Rasterio ([`Transform`](https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.transform)). 
-To get it on the command line you can use the [Rasterio CLI](https://rasterio.readthedocs.io/en/latest/cli.html) with the 
-[info](https://rasterio.readthedocs.io/en/latest/cli.html#info) command: `$ rio info`. 
+or the Rasterio ([`Transform`](https://rasterio.readthedocs.io/en/stable/api/rasterio.io.html#rasterio.io.BufferedDatasetWriter.transform)).
+To get it on the command line you can use the [Rasterio CLI](https://rasterio.readthedocs.io/en/latest/cli.html) with the
+[info](https://rasterio.readthedocs.io/en/latest/cli.html#info) command: `$ rio info`.
 
 ```txt
   [Xp]   [a0, a1, a2]   [Pixel]
@@ -167,51 +194,60 @@ This object represents the centroid of the Item Geometry.
 
 ## Best Practices
 
-There are several projection extension fields with potentially overlapping functionality. This section attempts to 
+There are several projection extension fields with potentially overlapping functionality. This section attempts to
 give an overview of which ones you should consider using. They fit into three general categories:
 
-- **Description of the coordinate reference system:** [EPSG code](#projepsg) is recommended, but it is just a reference to known
-projection information. [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to fully describe the projection information. 
-This is typically done for projections that aren't available or fully described in the [EPSG Registry](https://epsg.org/). 
+- **Description of the coordinate reference system:** [proj:code](#projcode) is recommended, but it is just a
+reference to known projection information. [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to
+fully describe the projection information.
+
+This is typically done for projections that aren't available or fully described in a known registry
+(e.g., [EPSG Registry](https://epsg.org/) or [IAU Registry](http://www.opengis.net/def/crs/IAU/2015)).
+
 For example, the MODIS Sinusoidal projection does not have an EPSG code, but can be described using WKT2 or PROJJSON.
+
 - **Description of the native geometry information:** STAC requires the geometry and bounding box, but they are only available
-in lat/long (EPSG:4326). But most remote sensing data does not come in that projection, so it is often useful for clients to have 
+in lat/long (EPSG:4326, IAU_2015:30100, IAU_2015:49900, etc.). But most remote sensing data does not come in
+that projection, so it is often useful for clients to have
 the geometry information ([geometry](#projgeometry), [bbox](#projbbox), [centroid](#projcentroid)) in the coordinate reference system
-of the asset's data, so it doesn't have to reproject (which can be lossy and takes time). 
+of the asset's data, so it doesn't have to reproject (which can be lossy and takes time).
 - **Information to enable cataloging of data without opening assets:** Often it is useful to be able to construct a 'virtual layer',
 like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to open the actual imagery file. [shape](#projshape) and
 [transform](#projtransform) together with the core description of the CRS provide enough information about the size and shape of
 the data in the file so that tools don't have to open it.
 
-For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) the following fields: 
-1. `proj:epsg`, `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
+For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) 
+the following fields:
+
+1. `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
 2. Any of the following:
    - `proj:transform` and `proj:shape`
    - `proj:transform` and `proj:bbox`
    - `proj:bbox` and `proj:shape`
 
-None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data,
-as they describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the
-EPSG code if it's available, as it's a fairly standard piece of metadata, and [see below](#crs-description-recommendations) for more
+None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data, as they
+describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the code if it's
+available, as it's a fairly standard piece of metadata, and [see below](#crs-description-recommendations) for more
 information about when to use WKT and PROJJSON. We do recommend including the shape and transform fields if you have cloud
 optimized geotiff's or some other cloud native format, to enable online tools to work with the assets more efficiently. This is
-especially useful if the data is likely to be mosaiced or otherwise processed together, so that tools don't have to open every 
-single file to show or process aggregates of hundreds or thousands. Finally, the descriptions of the native geometry information 
+especially useful if the data is likely to be mosaiced or otherwise processed together, so that tools don't have to open every
+single file to show or process aggregates of hundreds or thousands. Finally, the descriptions of the native geometry information
 are useful when STAC is the complete metadata for an Item. If other metadata is also included it likely has this information, but
 we provide it because some modern systems are just using STAC for their entire metadata description.
 
 ### CRS Description Recommendations
 
-WKT2 and PROJJSON are mostly recommended when you have data that is not part of the standard EPSG registry. Providing one of them
+WKT2 and PROJJSON are mostly recommended when you have data that is not part of a standard registry. Providing one of them
 supplies the exact information for projection software to do the exact projection transform.
-WKT2 and PROJJSON are equivalent to one another - more clients understand WKT2, but PROJJSON fits more nicely in the STAC JSON 
-structure, since they are both JSON. For now it's probably best to use both for maximum interoperability, but just using PROJJSON 
+WKT2 and PROJJSON are equivalent to one another - more clients understand WKT2, but PROJJSON fits more nicely in the STAC JSON
+structure, since they are both JSON. For now it's probably best to use both for maximum interoperability, but just using PROJJSON
 is likely ok if you aren't worried about legacy client support.
 
 ### Thumbnails
 
-For (unlocated) thumbnails and similar imagery, it is recommended set `proj:epsg` to `null` and include `proj:shape`
+For (unlocated) thumbnails and similar imagery, it is recommended set `proj:code` to `null` and include `proj:shape`
 so that
+
 1. clients can read the image dimensions upfront (and reserve space for them), and
 2. you explicitly state that the thumbnail is not geolocated.
 

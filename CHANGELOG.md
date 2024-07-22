@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- The new field `proj:code` was introduced as a more general way to describe projection codes for various authorities, not just EPSG.
+
+### Deprecated
+
+- `proj:espg` was deprecated in favor of `proj:code`.
+  A former `"proj:epsg": 3857` is now `"proj:code": "EPSG:3857"`.
+
 ## [v1.1.0] - 2023-02-10
 
 ### Added
@@ -13,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added examples for Collections and Assets (in Items)
 
 ### Changed
-
 - `proj:epsg` is not required in Item properties anymore. `proj:epsg` is recommended now, but not required in any scope.
 - Updated the PROJJSON schema to v0.5
 

@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The new field `proj:code` was introduced as a more general way to describe projection codes for various authorities, not just EPSG.
 
+### Changed
+
+- Updated PROJJSON schema version from 0.5 to 0.7
+
 ### Deprecated
 
 - `proj:espg` was deprecated in favor of `proj:code`.

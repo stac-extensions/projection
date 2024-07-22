@@ -1,7 +1,7 @@
 {
   "stac_version": "1.0.0",
   "stac_extensions": [
-    "https://stac-extensions.github.io/projection/v1.2.0/schema.json"
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
   ],
   "type": "Feature",
   "id": "20201211_223832_CS2",
@@ -47,7 +47,6 @@
       "cool_sensor_v1"
     ],
     "gsd": 0.66,
-    "proj:epsg": 32659,
     "proj:code": "EPSG:32659",
     "proj:shape": [
       5558,

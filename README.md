@@ -1,7 +1,7 @@
 # Projection Extension Specification
 
 - **Title:** Projection
-- **Identifier:** <https://stac-extensions.github.io/projection/v1.2.0/schema.json>
+- **Identifier:** <https://stac-extensions.github.io/projection/v2.0.0/schema.json>
 - **Field Name Prefix:** proj
 - **Scope:** Item, Collection
 - **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/README.md#extension-maturity):** Stable
@@ -37,8 +37,7 @@ The fields in the table below can be used in these parts of STAC documents:
 
 | Field Name     | Type          | Description |
 | -------------- | ------------- | ----------- |
-| proj:code      | string\|null  | Authority and specific code of the data source (e.g., ["EPSG:####"](https://epsg.org/), ["IAU:#####"](http://www.opengis.net/def/crs/IAU/2015)) |
-| proj:epsg      | integer\|null | **DEPRECATED.** [EPSG code](http://www.epsg-registry.org/) of the datasource |
+| proj:code      | string\|null  | Authority and specific code of the data source (e.g., `EPSG:3857`) |
 | proj:wkt2      | string\|null  | [WKT2](http://docs.opengeospatial.org/is/12-063r5/12-063r5.html) string representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:projjson  | [PROJJSON Object](https://proj.org/specifications/projjson.html)\|null | PROJJSON object representing the Coordinate Reference System (CRS) that the `proj:geometry` and `proj:bbox` fields represent |
 | proj:geometry  | [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1) | Defines the footprint of this Item. |
@@ -57,28 +56,11 @@ would imply that the projection information also applies to the thumbnail if not
 You may want to add the `proj:code` to the Item Properties though as this would provide an easy way to
 filter for specific projection codes in an API. In this case you could override the `proj:code` for the thumbnail on the asset level.
 
+> \[!WARNING]
+> The field `proj:epsg` has been deprecated in v1.2.0 in favor of `proj:code` and has been removed in v2.0.0.
+> For example, the former field `"proj:epsg": 32659` must be migrated to `"proj:code": "EPSG:32659"`.
+
 ### Additional Field Information
-
-#### proj:epsg
-
-This field has been deprecated in v1.2.0 in favor of `proj:code`.
-`proj:epsg` will be removed in v2.0.0 of this extension.
-
-For example, the following:
-
-```json
-{
-  "proj:epsg": 32659,
-}
-```
-
-would be represented as:
-
-```json
-{
-  "proj:code": "EPSG:32659",
-}
-```
 
 #### proj:code
 
@@ -90,9 +72,9 @@ clients are likely to support are listed in the following table.
 | Authority Name                          | URL                                                        |
 | --------------------------------------- | ---------------------------------------------------------- |
 | European Petroleum Survey Groups (EPSG) | <http://www.opengis.net/def/crs/EPSG> or <http://epsg.org> |
-| International Astronomical Union (IAU)  | <http://www.opengis.net/def/crs/IAU>                      |
-| Open Geospatial Consortium (OGC)        | <http://www.opengis.net/def/crs/OGC>                      |
-| ESRI                                    | <https://spatialreference.org/ref/esri/>                  |
+| International Astronomical Union (IAU)  | <http://www.opengis.net/def/crs/IAU>                       |
+| Open Geospatial Consortium (OGC)        | <http://www.opengis.net/def/crs/OGC>                       |
+| ESRI                                    | <https://spatialreference.org/ref/esri/>                   |
 
 The `proj:code` field SHOULD be set to `null` in the following cases:
 

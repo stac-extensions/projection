@@ -198,10 +198,9 @@ like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to op
 [transform](#projtransform) together with the core description of the CRS provide enough information about the size and shape of
 the data in the file so that tools don't have to open it.
 
-For example, the GDAL implementation [requires](https://twitter.com/EvenRouault/status/1419752806735568902) 
-the following fields:
+For example, the GDAL implementation requires the following fields:
 
-1. `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
+1. `proj:code` or `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
 2. Any of the following:
    - `proj:transform` and `proj:shape`
    - `proj:transform` and `proj:bbox`

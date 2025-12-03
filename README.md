@@ -180,31 +180,32 @@ There are several projection extension fields with potentially overlapping funct
 give an overview of which ones you should consider using. They fit into three general categories:
 
 - **Description of the coordinate reference system:** [proj:code](#projcode) is recommended, but it is just a
-reference to known projection information. [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to
-fully describe the projection information.
+  reference to known projection information.
 
-This is typically done for projections that aren't available or fully described in a known registry
-(e.g., [EPSG Registry](https://epsg.org/) or [IAU Registry](http://www.opengis.net/def/crs/IAU/2015)).
-
-For example, the MODIS Sinusoidal projection does not have an EPSG code, but can be described using WKT2 or PROJJSON.
+  [WKT2](#projwkt2) and [PROJJSON](#projprojjson) are two options to
+  fully describe the projection information.
+  This is typically done for projections that aren't available or fully described in a known registry
+  (e.g., [EPSG Registry](https://epsg.org/) or [IAU Registry](http://www.opengis.net/def/crs/IAU/2015)).
+  For example, the MODIS Sinusoidal projection does not have an EPSG code, but can be described using WKT2 or PROJJSON.
 
 - **Description of the native geometry information:** STAC requires the geometry and bounding box, but they are only available
-in lat/long (EPSG:4326, IAU_2015:30100, IAU_2015:49900, etc.). But most remote sensing data does not come in
-that projection, so it is often useful for clients to have
-the geometry information ([geometry](#projgeometry), [bbox](#projbbox), [centroid](#projcentroid)) in the coordinate reference system
-of the asset's data, so it doesn't have to reproject (which can be lossy and takes time).
+  in lat/long (EPSG:4326, IAU_2015:30100, IAU_2015:49900, etc.). But most remote sensing data does not come in
+  that projection, so it is often useful for clients to have
+  the geometry information ([geometry](#projgeometry), [bbox](#projbbox), [centroid](#projcentroid)) in the coordinate reference system
+  of the asset's data, so it doesn't have to reproject (which can be lossy and takes time).
+
 - **Information to enable cataloging of data without opening assets:** Often it is useful to be able to construct a 'virtual layer',
-like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to open the actual imagery file. [shape](#projshape) and
-[transform](#projtransform) together with the core description of the CRS provide enough information about the size and shape of
-the data in the file so that tools don't have to open it.
+  like GDAL's [VRT](https://gdal.org/drivers/raster/vrt.html) without having to open the actual imagery file. [shape](#projshape) and
+  [transform](#projtransform) together with the core description of the CRS provide enough information about the size and shape of
+  the data in the file so that tools don't have to open it.
 
-For example, the GDAL implementation requires the following fields:
+  For example, the GDAL implementation requires the following fields:
 
-1. `proj:code` or `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
-2. Any of the following:
-   - `proj:transform` and `proj:shape`
-   - `proj:transform` and `proj:bbox`
-   - `proj:bbox` and `proj:shape`
+  1. `proj:code` or `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
+  2. Any of the following:
+    - `proj:transform` and `proj:shape`
+    - `proj:transform` and `proj:bbox`
+    - `proj:bbox` and `proj:shape`
 
 None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data, as they
 describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the code if it's

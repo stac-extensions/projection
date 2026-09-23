@@ -69,6 +69,13 @@
       "href": "./collection.json",
       "rel": "collection",
       "type": "application/json"
+    },
+    {
+      "href": "https://example.com/tiles/{z}/{x}/{y}.png",
+      "rel": "xyz",
+      "type": "image/png",
+      "title": "Visual (XYZ tiles in UTM zone 59N)",
+      "proj:code": "EPSG:32659"
     }
   ],
   "assets": {

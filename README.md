@@ -33,7 +33,7 @@ The fields in the table below can be used in these parts of STAC documents:
 - [x] Collections
 - [x] Item Properties (incl. Summaries in Collections)
 - [x] Assets (for both Collections and Items, incl. Item Asset Definitions in Collections)
-- [ ] Links
+- [x] Links
 
 | Field Name     | Type          | Description |
 | -------------- | ------------- | ----------- |
@@ -239,6 +239,15 @@ falsely to the thumbnails.
 
 Client implementations should be careful about the order in `proj:shape`.
 Usually, image dimensions are given in width-height (x-y) order, but `proj:shape` lists the height first.
+
+### Links
+
+Projection information in links is useful for resources that don't expose their CRS,
+e.g., [web map links](https://github.com/stac-extensions/web-map-links).
+For example, clients usually assume that XYZ tiles are in Web Mercator (`EPSG:3857`).
+If they are in a different CRS, e.g., `EPSG:3031` for Antarctica, provide it in the link (e.g., via `proj:code`).
+
+Projection information in Item Properties or Collections doesn't apply to links.
 
 ## Contributing
 

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
   "title": "Projection Extension",
-  "description": "STAC Projection Extension for STAC Items.",
+  "description": "STAC Projection Extension for STAC Items, Collections and Catalogs.",
   "$comment": "This schema succeeds if the proj: fields are not used at all, please keep this in mind.",
   "oneOf": [
     {
@@ -24,6 +24,12 @@
             },
             "properties": {
               "$ref": "#/definitions/fields"
+            },
+            "links": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/fields"
+              }
             },
             "assets": {
               "type": "object",
@@ -47,6 +53,12 @@
             "type": {
               "const": "Collection"
             },
+            "links": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/fields"
+              }
+            },
             "assets": {
               "type": "object",
               "additionalProperties": {
@@ -56,6 +68,31 @@
             "item_assets": {
               "type": "object",
               "additionalProperties": {
+                "$ref": "#/definitions/fields"
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/definitions/stac_extensions"
+        }
+      ]
+    },
+    {
+      "$comment": "This is the schema for STAC Catalogs.",
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "Catalog"
+            },
+            "links": {
+              "type": "array",
+              "items": {
                 "$ref": "#/definitions/fields"
               }
             }

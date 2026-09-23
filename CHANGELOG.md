@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- The fields can be used in Link Objects (in Items, Collections and Catalogs)
+
 ## [v2.0.0] - 2024-07-22
 
 ### Removed

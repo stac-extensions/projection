@@ -203,9 +203,9 @@ give an overview of which ones you should consider using. They fit into three ge
 
   1. `proj:code` or `proj:wkt2` or `proj:projjson` (one of them filled with non-null values)
   2. Any of the following:
-    - `proj:transform` and `proj:shape`
-    - `proj:transform` and `proj:bbox`
-    - `proj:bbox` and `proj:shape`
+     - `proj:transform` and `proj:shape`
+     - `proj:transform` and `proj:bbox`
+     - `proj:bbox` and `proj:shape`
 
 None of these are necessary for 'search' of data, the main use case of STAC. But all enable more 'cloud native' use of data, as they
 describe the metadata needed to stream data for processing and/or display on the web. We do recommend including at least the code if it's

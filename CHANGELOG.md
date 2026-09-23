@@ -8,7 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- The fields can be used in Link Objects (in Items, Collections and Catalogs)
+- The fields can be used in Link Objects (in Items, Collections and Catalogs) and Link Templates
+- The fields can be used in Bands and Asset Templates
+- The JSON Schema validates the fields in Collection Summaries and at the top-level of Collections
+
+### Fixed
+
+- `proj:code` in the Collection example summaries uses a string instead of a number
 
 ## [v2.0.0] - 2024-07-22
 

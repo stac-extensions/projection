@@ -4,7 +4,7 @@
 - **Identifier:** <https://stac-extensions.github.io/projection/v2.0.0/schema.json>
 - **Field Name Prefix:** proj
 - **Scope:** Item, Collection
-- **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/README.md#extension-maturity):** Stable
+- **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/extensions/README.md#extension-maturity):** Stable
 - **Owner**: @matthewhanson
 - **History:** [Prior to March 30, 2021](https://github.com/radiantearth/stac-spec/commits/v1.0.0-rc.2/extensions/projection)
 
@@ -23,17 +23,20 @@ The `proj` prefix is short for "projection", and is not a reference to the PROJ/
   - [Item example](examples/item.json): Shows the basic usage of the extension in a STAC Item
   - [Assets in Item example](examples/assets.json): Shows the basic usage of the extension in STAC Assets (in a STAC Item)
   - [Collection example](examples/collection.json): Shows the basic usage of the extension in a STAC Collection (Item Assets Definiton and Summaries)
+  - [Bands example](examples/bands.json): Shows the usage of the extension in Bands (in a STAC Item Asset)
 - [JSON Schema](json-schema/schema.json)
 - [Changelog](./CHANGELOG.md)
 
 ## Fields
 
 The fields in the table below can be used in these parts of STAC documents:
+
 - [ ] Catalogs
 - [x] Collections
 - [x] Item Properties (incl. Summaries in Collections)
-- [x] Assets (for both Collections and Items, incl. Item Asset Definitions in Collections)
-- [x] Links
+- [x] Assets (for both Collections and Items, incl. Item Asset Definitions in Collections and Asset Templates)
+- [x] Links (incl. Link Templates)
+- [x] Bands
 
 | Field Name     | Type          | Description |
 | -------------- | ------------- | ----------- |
@@ -249,6 +252,12 @@ If they are in a different CRS, e.g., `EPSG:3031` for Antarctica, provide it in 
 
 Projection information in Item Properties or Collections doesn't apply to links.
 
+### Bands
+
+Projection information in bands is useful if the bands of an asset don't share the same grid,
+e.g., a multi-resolution file with bands in 10, 20 and 60 meters (see the [Bands example](examples/bands.json)).
+Fields specified in a band override the corresponding fields in the asset for this band.
+
 ## Contributing
 
 All contributions are subject to the
@@ -259,16 +268,18 @@ for running tests are copied here for convenience.
 
 ### Running tests
 
-The same checks that run as checks on PR's are part of the repository and can be run locally to verify that changes are valid. 
+The same checks that run as checks on PRs are part of the repository and can be run locally to verify that changes are valid.
 To run tests locally, you'll need `npm`, which is a standard part of any [node.js installation](https://nodejs.org/en/download/).
 
-First you'll need to install everything with npm once. Just navigate to the root of this repository and on 
+First you'll need to install everything with npm once. Just navigate to the root of this repository and on
 your command line run:
+
 ```bash
 npm install
 ```
 
 Then to check markdown formatting and test the examples against the JSON schema, you can run:
+
 ```bash
 npm test
 ```
@@ -276,6 +287,7 @@ npm test
 This will spit out the same texts that you see online, and you can then go and fix your markdown or examples.
 
 If the tests reveal formatting problems with the examples, you can fix them with:
+
 ```bash
 npm run format-examples
 ```

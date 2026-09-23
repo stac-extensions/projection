@@ -64,7 +64,7 @@ filter for specific projection codes in an API. In this case you could override 
 
 #### proj:code
 
-Projection codes are identified by a string. The [proj](https://proj.org/) library defines projections
+Projection codes are identified by a string. The [PROJ](https://proj.org/) library defines projections
 using "authority:code", e.g., "EPSG:4326" or "IAU_2015:30100". Different projection authorities may define
 different string formats. Examples of known projection authorities, where when can find well known codes that
 clients are likely to support are listed in the following table.

@@ -1,179 +1,330 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+  "$id": "https://stac-extensions.github.io/projection/v2.0.0/schema.json#",
   "title": "Projection Extension",
-  "description": "STAC Projection Extension for STAC Items.",
-  "$comment": "This schema succeeds if the proj: fields are not used at all, please keep this in mind.",
+  "description": "STAC Projection Extension for STAC Catalogs, STAC Collections and STAC Items.",
+  "type": "object",
+  "required": [
+    "stac_extensions",
+    "type"
+  ],
+  "properties": {
+    "stac_extensions": {
+      "type": "array",
+      "contains": {
+        "const": "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Catalog",
+        "Collection",
+        "Feature"
+      ]
+    },
+    "assets": {
+      "$comment": "This validates the fields in Item and Collection Assets, but does not require them.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/fieldsAndBands"
+      }
+    },
+    "links": {
+      "$comment": "This validates the fields in links.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/fields"
+      }
+    },
+    "assetTemplates": {
+      "$comment": "This validates the fields in asset templates.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/fieldsAndBands"
+      }
+    },
+    "linkTemplates": {
+      "$comment": "This validates the fields in link templates.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/fields"
+      }
+    }
+  },
   "oneOf": [
     {
-      "$comment": "This is the schema for STAC Items.",
+      "$comment": "This validates the fields in the Item Properties.",
+      "type": "object",
+      "required": [
+        "type",
+        "properties"
+      ],
+      "properties": {
+        "type": {
+          "const": "Feature"
+        },
+        "properties": {
+          "$ref": "#/definitions/fieldsAndBands"
+        }
+      }
+    },
+    {
+      "$comment": "This is the schema for top-level fields, summaries and item assets in STAC Collections.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "const": "Collection"
+        },
+        "summaries": {
+          "$ref": "#/definitions/summaries"
+        },
+        "item_assets": {
+          "$comment": "This validates the fields in item assets.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/fieldsAndBands"
+          }
+        }
+      },
       "allOf": [
         {
-          "$ref": "#/definitions/stac_extensions"
-        },
-        {
-          "type": "object",
-          "required": [
-            "type",
-            "properties",
-            "assets"
-          ],
-          "properties": {
-            "type": {
-              "const": "Feature"
-            },
-            "properties": {
-              "$ref": "#/definitions/fields"
-            },
-            "assets": {
-              "type": "object",
-              "additionalProperties": {
-                "$ref": "#/definitions/fields"
-              }
-            }
-          }
+          "$ref": "#/definitions/fieldsAndBands"
         }
       ]
     },
     {
-      "$comment": "This is the schema for STAC Collections.",
-      "allOf": [
-        {
-          "type": "object",
-          "required": [
-            "type"
-          ],
-          "properties": {
-            "type": {
-              "const": "Collection"
-            },
-            "assets": {
-              "type": "object",
-              "additionalProperties": {
-                "$ref": "#/definitions/fields"
-              }
-            },
-            "item_assets": {
-              "type": "object",
-              "additionalProperties": {
-                "$ref": "#/definitions/fields"
-              }
-            }
-          }
-        },
-        {
-          "$ref": "#/definitions/stac_extensions"
+      "$comment": "The fields can't be used at the top-level of STAC Catalogs, only in links.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "const": "Catalog"
         }
-      ]
+      }
     }
   ],
   "definitions": {
-    "stac_extensions": {
+    "proj:code": {
+      "title": "Projection code",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "proj:wkt2": {
+      "title": "Coordinate Reference System in WKT2 format",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "proj:projjson": {
+      "title": "Coordinate Reference System in PROJJSON format",
+      "oneOf": [
+        {
+          "$ref": "https://proj.org/schemas/v0.7/projjson.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "proj:geometry": {
+      "$ref": "https://geojson.org/schema/Geometry.json"
+    },
+    "proj:bbox": {
+      "title": "Extent",
+      "type": "array",
+      "oneOf": [
+        {
+          "minItems": 4,
+          "maxItems": 4
+        },
+        {
+          "minItems": 6,
+          "maxItems": 6
+        }
+      ],
+      "items": {
+        "type": "number"
+      }
+    },
+    "proj:centroid": {
+      "title": "Centroid",
       "type": "object",
       "required": [
-        "stac_extensions"
+        "lat",
+        "lon"
       ],
       "properties": {
-        "stac_extensions": {
-          "type": "array",
-          "contains": {
-            "const": "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
-          }
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lon": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
         }
+      }
+    },
+    "proj:shape": {
+      "title": "Shape",
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "integer"
+      }
+    },
+    "proj:transform": {
+      "title": "Transform",
+      "type": "array",
+      "oneOf": [
+        {
+          "minItems": 6,
+          "maxItems": 6
+        },
+        {
+          "minItems": 9,
+          "maxItems": 9
+        }
+      ],
+      "items": {
+        "type": "number"
       }
     },
     "fields": {
       "type": "object",
       "properties": {
-        "proj:code":{
-          "title":"Projection code",
-          "type":[
-            "string",
-            "null"
-          ]
+        "proj:code": {
+          "$ref": "#/definitions/proj:code"
         },
-        "proj:wkt2":{
-          "title":"Coordinate Reference System in WKT2 format",
-          "type":[
-            "string",
-            "null"
-          ]
+        "proj:wkt2": {
+          "$ref": "#/definitions/proj:wkt2"
         },
         "proj:projjson": {
-          "title":"Coordinate Reference System in PROJJSON format",
-          "oneOf": [
-            {
-              "$ref": "https://proj.org/schemas/v0.7/projjson.schema.json"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "$ref": "#/definitions/proj:projjson"
         },
-        "proj:geometry":{
-          "$ref": "https://geojson.org/schema/Geometry.json"
+        "proj:geometry": {
+          "$ref": "#/definitions/proj:geometry"
         },
-        "proj:bbox":{
-          "title":"Extent",
-          "type":"array",
-          "oneOf": [
-            {
-              "minItems":4,
-              "maxItems":4
-            },
-            {
-              "minItems":6,
-              "maxItems":6
-            }
-          ],
-          "items":{
-            "type":"number"
-          }
+        "proj:bbox": {
+          "$ref": "#/definitions/proj:bbox"
         },
-        "proj:centroid":{
-          "title":"Centroid",
-          "type":"object",
-          "required": [
-            "lat",
-            "lon"
-          ],
+        "proj:centroid": {
+          "$ref": "#/definitions/proj:centroid"
+        },
+        "proj:shape": {
+          "$ref": "#/definitions/proj:shape"
+        },
+        "proj:transform": {
+          "$ref": "#/definitions/proj:transform"
+        }
+      },
+      "patternProperties": {
+        "^(?!proj:)": {}
+      },
+      "additionalProperties": false
+    },
+    "fieldsAndBands": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/fields"
+        },
+        {
           "properties": {
-            "lat": {
-              "type": "number",
-              "minimum": -90,
-              "maximum": 90
-            },
-            "lon": {
-              "type": "number",
-              "minimum": -180,
-              "maximum": 180
+            "bands": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/fields"
+              }
             }
           }
-        },
-        "proj:shape":{
-          "title":"Shape",
-          "type":"array",
-          "minItems":2,
-          "maxItems":2,
-          "items":{
-            "type":"integer"
-          }
-        },
-        "proj:transform":{
-          "title":"Transform",
-          "type":"array",
-          "oneOf": [
-            {
-              "minItems":6,
-              "maxItems":6
-            },
-            {
-              "minItems":9,
-              "maxItems":9
-            }
+        }
+      ]
+    },
+    "summaries": {
+      "$comment": "Summaries allow lists and JSON Schemas for all fields, ranges don't make sense for any of the fields.",
+      "type": "object",
+      "properties": {
+        "proj:code": {
+          "type": [
+            "array",
+            "object"
           ],
-          "items":{
-            "type":"number"
+          "items": {
+            "$ref": "#/definitions/proj:code"
+          }
+        },
+        "proj:wkt2": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "items": {
+            "$ref": "#/definitions/proj:wkt2"
+          }
+        },
+        "proj:projjson": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "items": {
+            "$ref": "#/definitions/proj:projjson"
+          }
+        },
+        "proj:geometry": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "items": {
+            "$ref": "#/definitions/proj:geometry"
+          }
+        },
+        "proj:bbox": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "items": {
+            "$ref": "#/definitions/proj:bbox"
+          }
+        },
+        "proj:centroid": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "items": {
+            "$ref": "#/definitions/proj:centroid"
+          }
+        },
+        "proj:shape": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "items": {
+            "$ref": "#/definitions/proj:shape"
+          }
+        },
+        "proj:transform": {
+          "type": [
+            "array",
+            "object"
+          ],
+          "items": {
+            "$ref": "#/definitions/proj:transform"
           }
         }
       },

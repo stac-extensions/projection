@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The fields can be used in Bands and Asset Templates
 - The JSON Schema validates the fields in Collection Summaries and at the top-level of Collections
 
+### Changed
+
+- `proj:bbox` and `proj:geometry` should be omitted in Items if the CRS is WGS 84 (e.g., `EPSG:4326`)
+
 ### Fixed
 
 - `proj:code` in the Collection example summaries uses a string instead of a number

@@ -113,6 +113,7 @@ representing the footprint of this Item, except not necessarily in EPSG:4326 as 
 Specified based on the `proj:code`, `proj:projjson` or `proj:wkt2` fields (not necessarily EPSG:4326).
 Usually, this will be represented by a Polygon with five coordinates, as the item in the asset data CRS should be
 a square aligned to the original CRS grid.
+If the CRS is WGS 84, this field SHOULD be omitted in Items, see [Data in WGS 84](#data-in-wgs-84).
 
 #### proj:bbox
 
@@ -124,6 +125,7 @@ The length of the array must be 2\*n where n is the number of dimensions. The ar
 most extent followed by all axes of the northeasterly most extent specified in Longitude/Latitude or Longitude/Latitude/Elevation
 based on [WGS 84](http://www.opengis.net/def/crs/OGC/1.3/CRS84). When using 3D geometries, the elevation of the southwesterly most
 extent is the minimum elevation in meters and the elevation of the northeasterly most extent is the maximum in meters.
+If the CRS is WGS 84, this field SHOULD be omitted in Items, see [Data in WGS 84](#data-in-wgs-84).
 
 #### proj:centroid
 
@@ -227,6 +229,12 @@ supplies the exact information for projection software to do the exact projectio
 WKT2 and PROJJSON are equivalent to one another - more clients understand WKT2, but PROJJSON fits more nicely in the STAC JSON
 structure, since they are both JSON. For now it's probably best to use both for maximum interoperability, but just using PROJJSON
 is likely ok if you aren't worried about legacy client support.
+
+### Data in WGS 84
+
+If the CRS is WGS 84 (e.g., `EPSG:4326`), `proj:bbox` and `proj:geometry` SHOULD be omitted in Items
+as they would duplicate the `bbox` and `geometry` of the Item.
+Clients that need these fields (e.g., to create a VRT in GDAL) SHOULD fall back to `bbox` and `geometry` in this case.
 
 ### Thumbnails
 

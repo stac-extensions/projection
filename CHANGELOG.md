@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0] - 2026-09-23
+
 ### Added
 
 - The fields can be used in Link Objects (in Items, Collections and Catalogs) and Link Templates
@@ -63,7 +65,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial independent release, see [previous history](https://github.com/radiantearth/stac-spec/commits/v1.0.0-rc.2/extensions/projection)
 
-[Unreleased]: <https://github.com/stac-extensions/projection/compare/v2.0.0...HEAD>
+[Unreleased]: <https://github.com/stac-extensions/projection/compare/v2.1.0...HEAD>
+[v2.1.0]: <https://github.com/stac-extensions/projection/compare/v2.0.0...v2.1.0>
 [v2.0.0]: <https://github.com/stac-extensions/projection/compare/v1.2.0...v2.0.0>
 [v1.2.0]: <https://github.com/stac-extensions/projection/compare/v1.1.0...v1.2.0>
 [v1.1.0]: <https://github.com/stac-extensions/projection/compare/v1.0.0...v1.1.0>

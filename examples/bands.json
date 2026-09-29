@@ -1,0 +1,129 @@
+{
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+  ],
+  "type": "Feature",
+  "id": "multi_resolution_example",
+  "bbox": [
+    8.999,
+    47.659,
+    10.506,
+    48.656
+  ],
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          8.999,
+          48.648
+        ],
+        [
+          10.498,
+          48.656
+        ],
+        [
+          10.506,
+          47.667
+        ],
+        [
+          9.022,
+          47.659
+        ],
+        [
+          8.999,
+          48.648
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "datetime": "2024-06-01T10:30:00Z",
+    "proj:code": "EPSG:32632"
+  },
+  "links": [],
+  "assets": {
+    "data": {
+      "href": "https://example.com/multi_resolution_example.nc",
+      "type": "application/netcdf",
+      "title": "Multi-resolution data",
+      "roles": [
+        "data"
+      ],
+      "proj:code": "EPSG:32632",
+      "proj:bbox": [
+        499980,
+        5290200,
+        609780,
+        5400000
+      ],
+      "bands": [
+        {
+          "name": "red",
+          "gsd": 10,
+          "proj:shape": [
+            10980,
+            10980
+          ],
+          "proj:transform": [
+            10,
+            0,
+            499980,
+            0,
+            -10,
+            5400000
+          ]
+        },
+        {
+          "name": "nir",
+          "gsd": 10,
+          "proj:shape": [
+            10980,
+            10980
+          ],
+          "proj:transform": [
+            10,
+            0,
+            499980,
+            0,
+            -10,
+            5400000
+          ]
+        },
+        {
+          "name": "swir16",
+          "gsd": 20,
+          "proj:shape": [
+            5490,
+            5490
+          ],
+          "proj:transform": [
+            20,
+            0,
+            499980,
+            0,
+            -20,
+            5400000
+          ]
+        },
+        {
+          "name": "aot",
+          "gsd": 60,
+          "proj:shape": [
+            1830,
+            1830
+          ],
+          "proj:transform": [
+            60,
+            0,
+            499980,
+            0,
+            -60,
+            5400000
+          ]
+        }
+      ]
+    }
+  }
+}
